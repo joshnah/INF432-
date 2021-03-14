@@ -7,17 +7,26 @@ typedef unsigned int UINT;
 /* Black box is a box with bomb, otherwise white box */
 typedef enum {BLACK=1, WHITE=0} Box;
 
+/* Coordinate of a box */
 typedef struct Coordinate
 {
     int x;
     int y;
 } Coordinate;
  
+/* Information of a grid */
 typedef struct Grid
 {
     UINT L,H;
     Box *tab;
 } Grid;
+
+/* Rectangle of boxes */
+typedef struct Rectangle
+{
+    Coordinate C1;
+    Coordinate C2;
+} Rectangle;
 
 /* Initialize a grid with all cases white */
 Grid init_grid(UINT L, UINT H);
