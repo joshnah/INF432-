@@ -29,12 +29,16 @@ int main(int argc, char *argv[])
     
     display_all_territories(list_territory, nb_territory);
 
+    // Print out a normal grid with territories
     Grid G = Extract_Grid(list_territory, nb_territory, dim);
     display_grid(G);
 
+
+    // Print out the intersection grid
     Grid_intersection I = Extract_Grid_Intersection(G, list_territory, nb_territory);
+    display_grid_intersection(I, 5);
 
-    display_grid_intersection(I, 2);
 
 
+    /****************** RULE 1 ****************/
 }
