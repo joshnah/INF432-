@@ -1,6 +1,8 @@
 #ifndef _TERRITORY_H_
 #define _TERRITORY_H_
 #include "grid.h"
+#include "intersection.h"
+#include "macros.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -30,5 +32,10 @@ void display_all_territories(Territory list[], int nb_territory);
 /* Return a rectangle of area of a territory */
 Rectangle area_territory(Coordinate O, int dim);
 
+/* Create a grid with the information from a list of territory */
+Grid Extract_Grid(Territory list[], int nb_territory, int dim);
+
+/* Create a grid of intersection */
+Grid_intersection Extract_Grid_Intersection(Grid G, Territory list[], int nb_territory);
 
 #endif

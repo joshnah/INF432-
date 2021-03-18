@@ -2,12 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "territory.h"
+#include "grid.h"
+#include "intersection.h"
+#include "macros.h"
 
-#define ERREUR_FATALE(_m_) \
-{ \
-fprintf(stderr, "%s\n", _m_); \
-exit(1); \
-}
 
 
 
@@ -31,6 +29,12 @@ int main(int argc, char *argv[])
     
     display_all_territories(list_territory, nb_territory);
 
+    Grid G = Extract_Grid(list_territory, nb_territory, dim);
+    display_grid(G);
+
+    Grid_intersection I = Extract_Grid_Intersection(G, list_territory, nb_territory);
+
+    display_grid_intersection(I, 2);
 
 
 }

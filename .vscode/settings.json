@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "territory.h": "c",
+        "macros.h": "c"
+    }
+}

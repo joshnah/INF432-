@@ -3,68 +3,62 @@
 #include<stdlib.h>
 #include<string.h>
 
-
-
-Grid init_grid(UINT L, UINT H){
-
-        Grid G;
-        UINT i;
-
-        G.L = L;
-        G.H = H;
-
-        /* alloctaion dynamique d'un tableau de L*H Pixel*/
-        G.tab = (Box *)malloc(sizeof(Box)*L*H);
-
-        /* test si le tableau a ete correctement alloue */
-        if (G.tab == (Box *)NULL)
-        {
-            printf("Can't initiate grid");
-        }
-
-        /* remplir le tableau avec des pixels blancs */
-        for (i=0; i<L*H; i++)
-            G.tab[i] = WHITE;
-
-        return G;
+Grid init_grid(int dim)
+{
+    Grid I;
+	UINT i;
+	
+	/* alloctaion dynamique d'un tableau de L*H Pixel*/
+	I.tab = (Box *)malloc(sizeof(Box)*dim*dim);
+	I.dim = dim;
+	/* test si le tableau a ete correctement alloue */
+	if (I.tab == (Box *)NULL)
+	{
+		ERREUR_FATALE("IMPOSSIBLE TO CREATE A GRID");
+	}
+	
+	/* remplir le tableau avec des pixels blancs */
+	for (i=0; i<dim*dim; i++)
+		I.tab[i] = 0;
+		
+	return I;
 }
 
-Box get_box(Grid G, int x, int y){
-    Box B = G.tab[x,y];
-    return B;
+
+/* The function return the value in the box (x,y) */
+Box get_box(Grid G, int x, int y)
+{
+    if (x<1 || x>G.dim || y<1 || y>G.dim)
+		return 0;
+	return G.tab[INDICE(G,x,y)];
 }
 
-void set_box(Grid G, int x, int y, Box b){
-    G.tab[x,y] = b;
+/* The function set the value in the box (x,y) */
+void set_box(Grid G, int x, int y, Box b)
+{
+    if (x<1 || x>G.dim || y<1 || y>G.dim)
+		return ;
+    G.tab[INDICE(G,x,y)] = b;
 }
 
-UINT length_grid(Grid G){
-    return G.L;
-}
-
-UINT height_grid(Grid G){
-    return G.H;
-}
-
+/* Display the grid in the stdout */
 void display_grid(Grid G)
 {
-    UINT L,H;
-    UINT x,y;
-
-    L = length_grid(G);
-    H = height_grid(G);
-    printf("length: %d height : %d\n",L,H);
-
-    Box val;
-    printf("Grid:\n");
-    for (y = 1; y <= H; y++)
-    {
-        for ( x = 1; x <= L; x++)
-        {
-            val = get_box(G, x, y);
-            printf("%d",val);
-        }
-        printf("\n");
-    }
-    printf("\n");
+    int x,y;
+    int dim = G.dim;
+	printf("Dimension : %d  %d\n",dim, dim);
+	Box b;
+	printf("Grid:\n");
+	for (y = 1; y <= dim; y++)
+	{
+		for ( x = 1; x <= dim; x++)
+		{
+			b = get_box(G, x, y);
+			printf("%d",b);
+		}
+		printf("\n");
+	}
+	printf("\n");
 }
+
+

@@ -56,3 +56,53 @@ void display_all_territories(Territory list[], int nb_territory)
     }
 
 }
+
+
+Grid Extract_Grid(Territory list[], int nb_territory, int dim)
+{
+    Grid G = init_grid(dim);
+
+    int i;
+    for (i = 0; i < nb_territory; i++)
+        set_box(G, list[i].O.x, list[i].O.y , list[i].nb_bomb);
+    
+    return G;
+
+}
+/* Check if (x,y) is in territory t or not */
+bool check_in_territory(int t, Territory list[], int x, int y)
+{
+    Rectangle r = list[t-1].area;
+    if (r.C1.x <= x && r.C2.x >=x && r.C1.y <= y && r.C2.y >= y)
+        return TRUE;
+    else
+        return FALSE;
+    
+}
+Grid_intersection Extract_Grid_Intersection(Grid G, Territory list[], int nb_territory)
+{
+    int x,y;
+    Grid_intersection I = init_Grid_intersection(G.dim);
+    int t;
+    List_intersection l;
+    for (y = 1; y <= G.dim; y++)
+	{
+		for ( x = 1; x <= G.dim; x++)
+		{
+            for (t = 1; t <= nb_territory; t++)
+            {    
+                if (check_in_territory(t, list, x, y ) == TRUE)
+                    add_territory(I, x, y, t);
+                l = get_List_intersection(I, x, y);
+
+            }   
+            if ( l != NULL && l->number == 1)
+            {   
+                free_list_intersection(&l);
+                I.tab[INDICE(I,x,y)] = NULL;  
+            } 
+		}
+	}
+
+    return I;
+}
