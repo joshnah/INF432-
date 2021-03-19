@@ -151,3 +151,6 @@ int nb_clauses(Territory list[], int nb_territory)
     }
     return nb;
 }
+
+
+sssssss;
