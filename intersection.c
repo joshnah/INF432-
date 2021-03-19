@@ -128,6 +128,8 @@ void free_list_intersect_r(Cell_intersection *n)
 
 void free_list_intersection(List_intersection *l)
 {
+    if (*l == NULL)
+        return;
     free_list_intersect_r((*l)->head);
     free(*l);
     *l = NULL;

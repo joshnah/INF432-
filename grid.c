@@ -19,7 +19,7 @@ Grid init_grid(int dim)
 	
 	/* remplir le tableau avec des pixels blancs */
 	for (i=0; i<dim*dim; i++)
-		I.tab[i] = 0;
+		I.tab[i] = -1;
 		
 	return I;
 }
@@ -54,7 +54,11 @@ void display_grid(Grid G)
 		for ( x = 1; x <= dim; x++)
 		{
 			b = get_box(G, x, y);
-			printf("%d",b);
+			if (b != -1)
+				printf("%d",b);
+			else
+				printf("*");
+			
 		}
 		printf("\n");
 	}

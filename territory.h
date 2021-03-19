@@ -38,4 +38,7 @@ Grid Extract_Grid(Territory list[], int nb_territory, int dim);
 /* Create a grid of intersection */
 Grid_intersection Extract_Grid_Intersection(Grid G, Territory list[], int nb_territory);
 
+/* Calculate the number of clauses */
+int nb_clauses(Territory list[], int nb_territory);
+
 #endif

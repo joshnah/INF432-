@@ -6,7 +6,7 @@
 typedef unsigned int UINT;
 
 /* The value is from 0 to 9 */
-typedef unsigned int Box;
+typedef int Box;
 
 /* Coordinate of a box */
 typedef struct Coordinate

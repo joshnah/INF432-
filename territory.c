@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define min(X, Y)  ((X) < (Y) ? (X) : (Y))
-#define max(X, Y)  ((X) > (Y) ? (X) : (Y))
+
 
 
 
@@ -18,6 +17,11 @@ Rectangle area_territory(Coordinate O, int dim)
     return R;
 }
 
+int area_rectangle(Rectangle R)
+{
+    return (R.C2.x - R.C1.x +1) * (R.C2.y - R.C1.y +1);
+}
+
 void read_input(FILE *f, int nb_territory,int dim, Territory list_territory[])
 {
     int nb_bomb;
@@ -25,18 +29,32 @@ void read_input(FILE *f, int nb_territory,int dim, Territory list_territory[])
     int y;
     int i;
     int count_variable = 1;
+    int a;
     for (i = 1; i <= nb_territory; i++ )
     {
         fscanf(f, "%d", &nb_bomb);
         fscanf(f, "%d", &x);
         fscanf(f, "%d", &y);
-        list_territory[i-1].index = i;
-        list_territory[i-1].I.a = count_variable;
-        list_territory[i-1].I.b = count_variable + nb_bomb - 1;
         list_territory[i-1].O = (Coordinate){x, y};
-        list_territory[i-1].nb_bomb = nb_bomb; 
+
         list_territory[i-1].area = area_territory(list_territory[i-1].O, dim); 
-        count_variable = count_variable + nb_bomb;
+        a = area_rectangle(list_territory[i-1].area);
+        list_territory[i-1].size = a;
+        list_territory[i-1].index = i;
+    
+        if (nb_bomb != 0)
+        {
+            list_territory[i-1].I.a = count_variable;
+            list_territory[i-1].I.b = count_variable + nb_bomb *a - 1;
+        }
+        else
+        {
+            list_territory[i-1].I.a = 0;
+            list_territory[i-1].I.b = 0;
+        }
+        
+        list_territory[i-1].nb_bomb = nb_bomb; 
+        count_variable = count_variable + nb_bomb*a;
     }
 }
 
@@ -92,17 +110,44 @@ Grid_intersection Extract_Grid_Intersection(Grid G, Territory list[], int nb_ter
             for (t = 1; t <= nb_territory; t++)
             {    
                 if (check_in_territory(t, list, x, y ) == TRUE)
-                    add_territory(I, x, y, t);
-                l = get_List_intersection(I, x, y);
-
+                {
+                    if (list[t-1].nb_bomb == 0)
+                    {
+                        l = get_List_intersection(I, x, y);
+                        free_list_intersection(&l);
+                        I.tab[INDICE(I,x,y)] = NULL; 
+                        break;
+                    }
+                    else
+                        add_territory(I, x, y, t);
+                }
             }   
-            if ( l != NULL && l->number == 1)
+
+            // if the box only in ONE territory
+            l = get_List_intersection(I, x, y);
+            if (l != NULL  && l->number == 1)      
             {   
                 free_list_intersection(&l);
                 I.tab[INDICE(I,x,y)] = NULL;  
             } 
+
 		}
 	}
 
     return I;
+}
+
+
+
+int nb_clauses(Territory list[], int nb_territory)
+{
+    int nb = 0;
+    int i = 0;
+    /* Rule 1 2 */
+    for (i = 0; i < nb_territory; i ++)
+    {
+        nb = nb + list[i].nb_bomb;
+        nb = nb + list[i].size * binomial(list[i].nb_bomb, 2);
+    }
+    return nb;
 }

@@ -1,4 +1,4 @@
-/********************************/
+/* *******************************/
 /* This program is used for testing functions */
 
 #include "intersection.h"

@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
     display_grid_intersection(I, 5);
 
 
+    printf("Number of clauses : %d \n", nb_clauses(list_territory, nb_territory));
 
     /****************** RULE 1 ****************/
 }
