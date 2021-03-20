@@ -23,6 +23,20 @@ typedef struct territory
 
 } Territory;
 
+
+typedef struct cell_coordinate
+{
+    Coordinate C;
+    struct cell_coordinate *next;
+} cell_coordinate;
+
+typedef struct list_coordinate
+{
+    cell_coordinate* first;
+    int nb_points;
+}
+ list_coordinate;
+
 /* Read the input of the file into a list of territories and return a grid of availability */
 Grid read_input(FILE *f, int *nb_territory,int dim, Territory list_territory[]);
 
@@ -39,6 +53,8 @@ Grid Extract_Grid(Territory list[], int nb_territory, int dim);
 void extract_list_intersection(Linked_list_intersection_box *L, Territory list[], int nb_territory, Grid G);
 
 /* Calculate the number of clauses */
-int nb_clauses(Territory list[], int nb_territory);
+int nb_clauses(Territory list[], int nb_territory, Grid G, Grid Avai, Linked_list_intersection_box *L);
+
+void extract_list_availability(Territory list[], int nb_territory, Grid Avai, list_coordinate L[]);
 
 #endif
