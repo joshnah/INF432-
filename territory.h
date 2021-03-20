@@ -23,8 +23,8 @@ typedef struct territory
 
 } Territory;
 
-/* Read the input of the file into a list of territories */
-void read_input(FILE *f, int nb_territory, int dim, Territory list_territory[]);
+/* Read the input of the file into a list of territories and return a grid of availability */
+Grid read_input(FILE *f, int *nb_territory,int dim, Territory list_territory[]);
 
 /* Display the information of all territories */
 void display_all_territories(Territory list[], int nb_territory);
@@ -35,8 +35,8 @@ Rectangle area_territory(Coordinate O, int dim);
 /* Create a grid with the information from a list of territory */
 Grid Extract_Grid(Territory list[], int nb_territory, int dim);
 
-/* Create a grid of intersection */
-Grid_intersection Extract_Grid_Intersection(Grid G, Territory list[], int nb_territory);
+/* Create a list of intersection */
+void extract_list_intersection(Linked_list_intersection_box *L, Territory list[], int nb_territory, Grid G);
 
 /* Calculate the number of clauses */
 int nb_clauses(Territory list[], int nb_territory);

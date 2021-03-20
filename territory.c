@@ -22,40 +22,51 @@ int area_rectangle(Rectangle R)
     return (R.C2.x - R.C1.x +1) * (R.C2.y - R.C1.y +1);
 }
 
-void read_input(FILE *f, int nb_territory,int dim, Territory list_territory[])
+Grid read_input(FILE *f, int *nb_territory,int dim, Territory list_territory[])
 {
     int nb_bomb;
     int x;
     int y;
-    int i;
     int count_variable = 1;
     int a;
-    for (i = 1; i <= nb_territory; i++ )
+    int i = 1,k;
+    int c,d;
+    Grid G = init_grid(dim);
+    Rectangle r;
+    for (k = 1; k <= *nb_territory; k++ )
     {
         fscanf(f, "%d", &nb_bomb);
         fscanf(f, "%d", &x);
         fscanf(f, "%d", &y);
-        list_territory[i-1].O = (Coordinate){x, y};
-
-        list_territory[i-1].area = area_territory(list_territory[i-1].O, dim); 
-        a = area_rectangle(list_territory[i-1].area);
-        list_territory[i-1].size = a;
-        list_territory[i-1].index = i;
-    
+        
         if (nb_bomb != 0)
         {
+            list_territory[i-1].O = (Coordinate){x, y};
+
+            list_territory[i-1].area = area_territory(list_territory[i-1].O, dim); 
+            a = area_rectangle(list_territory[i-1].area);
+            list_territory[i-1].size = a;
+            list_territory[i-1].index = i;
+    
+
             list_territory[i-1].I.a = count_variable;
             list_territory[i-1].I.b = count_variable + nb_bomb *a - 1;
-        }
-        else
-        {
-            list_territory[i-1].I.a = 0;
-            list_territory[i-1].I.b = 0;
-        }
         
-        list_territory[i-1].nb_bomb = nb_bomb; 
-        count_variable = count_variable + nb_bomb*a;
+            list_territory[i-1].nb_bomb = nb_bomb; 
+            count_variable = count_variable + nb_bomb*a;
+            i++;
+        }
+
+        else 
+        {
+           r = area_territory((Coordinate){x,y}, dim);   
+           for (c = r.C1.x; c <= r.C2.x; c++)
+                for(d = r.C1.y; d <= r.C2.y; d++)
+                    set_box(G, c, d, -1);
+        }
     }
+    *nb_territory = i-1;
+    return G;
 }
 
 
@@ -97,45 +108,31 @@ bool check_in_territory(int t, Territory list[], int x, int y)
         return FALSE;
     
 }
-Grid_intersection Extract_Grid_Intersection(Grid G, Territory list[], int nb_territory)
+
+void extract_list_intersection(Linked_list_intersection_box *L, Territory list[], int nb_territory, Grid G)
 {
     int x,y;
-    Grid_intersection I = init_Grid_intersection(G.dim);
     int t;
-    List_intersection l;
+    Cell_intersection * i;
     for (y = 1; y <= G.dim; y++)
 	{
 		for ( x = 1; x <= G.dim; x++)
 		{
+            i = new_cell_intersection();
+            i->C = (Coordinate){x,y};
             for (t = 1; t <= nb_territory; t++)
             {    
                 if (check_in_territory(t, list, x, y ) == TRUE)
-                {
-                    if (list[t-1].nb_bomb == 0)
-                    {
-                        l = get_List_intersection(I, x, y);
-                        free_list_intersection(&l);
-                        I.tab[INDICE(I,x,y)] = NULL; 
-                        break;
-                    }
-                    else
-                        add_territory(I, x, y, t);
-                }
+                    add_territory(i,t);
             }   
-
-            // if the box only in ONE territory
-            l = get_List_intersection(I, x, y);
-            if (l != NULL  && l->number == 1)      
-            {   
-                free_list_intersection(&l);
-                I.tab[INDICE(I,x,y)] = NULL;  
-            } 
-
+            if (i->nb_territory <= 1)
+                free_cell_intersection(i);
+            else
+                add_cell_intersection(i, L);
 		}
-	}
-
-    return I;
+	}    
 }
+
 
 
 
@@ -153,4 +150,3 @@ int nb_clauses(Territory list[], int nb_territory)
 }
 
 
-sssssss;

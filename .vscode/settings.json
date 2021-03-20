@@ -3,6 +3,8 @@
         "stdio.h": "c",
         "territory.h": "c",
         "macros.h": "c",
-        "limits.h": "c"
+        "limits.h": "c",
+        "grid.h": "c",
+        "rules.h": "c"
     }
 }

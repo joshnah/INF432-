@@ -1,47 +1,43 @@
 #ifndef _INTERSECTION_H_
 #define _INTERSECTION_H_
 #include "macros.h"
+#include "grid.h"
 
 /*****************************/
 //This file is for calculating intersection grid//
 
 
-typedef struct Cell_intersection
+typedef struct Cell_territory
 {
     int val;
-    struct Cell_intersection* next;
+    struct Cell_territory* next;
+} Cell_territory;
+
+typedef struct Cell_intersection
+{
+    int nb_territory;
+    Cell_territory *list_of_territory;
+    Coordinate C;
+    struct Cell_intersection *next;
 } Cell_intersection;
 
-typedef struct List_intersection_f
+typedef struct Linked_list_intersection_box
 {
-    int number;
-    Cell_intersection *head;
-} List_intersection_f;
-
-typedef List_intersection_f* List_intersection;   // pointeur
-
-typedef struct Grid_intersection
-{
-    int dim;
-    List_intersection* tab;
-} Grid_intersection;
-
-Grid_intersection init_Grid_intersection(int dim);
+    int nb_box;
+    Cell_intersection *first;
+}Linked_list_intersection_box;
 
 
-/* Return a pointeur to a list of intersection */
-List_intersection get_List_intersection(Grid_intersection G, int x, int y);
+void add_territory(Cell_intersection* l, int territory);
 
+Cell_intersection* new_cell_intersection();
+void print_list_intersection(Linked_list_intersection_box *L);
 
-/* Add a territory to a list in the grid */
-void add_territory(Grid_intersection G, int x, int y, int territory);
+void add_cell_intersection(Cell_intersection *Ci, Linked_list_intersection_box *L);
 
-void display_grid_intersection(Grid_intersection G, int max);
+Linked_list_intersection_box init_list_intersection();
 
-
-
-void free_list_intersection(List_intersection *l);
-
+void free_cell_intersection(Cell_intersection *C);
 
 
 #endif

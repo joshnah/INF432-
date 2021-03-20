@@ -42,6 +42,7 @@ void set_box(Grid G, int x, int y, Box b);
 /* Display the grid in the stdout */
 void display_grid(Grid G);
 
+void display_grid_availability(Grid G);
 
 
 

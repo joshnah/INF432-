@@ -24,20 +24,33 @@ int main(int argc, char *argv[])
     fscanf(f, "%d", &dim);
     fscanf(f, "%d", &nb_territory);
 
+
     Territory list_territory[nb_territory];
-    read_input(f, nb_territory, dim, list_territory);
-    
+    /* Grid of availability */
+    Grid A = read_input(f, &nb_territory, dim, list_territory);
+
     display_all_territories(list_territory, nb_territory);
 
+    printf("************************\n\n");
+    
     // Print out a normal grid with territories
     Grid G = Extract_Grid(list_territory, nb_territory, dim);
+    printf("Grid of territories\n");
+    printf("We dont show the territory 0 in this grid \n\n");
+
     display_grid(G);
 
 
-    // Print out the intersection grid
-    Grid_intersection I = Extract_Grid_Intersection(G, list_territory, nb_territory);
-    display_grid_intersection(I, 5);
+    printf("************************\n\n");
+    printf("Grid of availability\n");
+    display_grid_availability(A);
 
+
+    printf("************************\n\n");
+
+    Linked_list_intersection_box List_intersection = init_list_intersection();
+    extract_list_intersection(&List_intersection, list_territory, nb_territory, G);
+    print_list_intersection(&List_intersection);
 
     printf("Number of clauses : %d \n", nb_clauses(list_territory, nb_territory));
 

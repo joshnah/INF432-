@@ -2,138 +2,88 @@
 #include <stdlib.h>
 #include "intersection.h"
 
-
-Grid_intersection init_Grid_intersection(int dim)
+Linked_list_intersection_box init_list_intersection()
 {
-    Grid_intersection G;
-    G.dim = dim;
-    G.tab = (List_intersection*)malloc(sizeof(List_intersection) * dim * dim );
+    Linked_list_intersection_box L;
+    L.first =NULL;
+    L.nb_box = 0;
+    return L;
+}
 
-    int i;
-    for (i=0; i < dim*dim; i++)
-    {
-        G.tab[i] = NULL;
-    }
-    return G;
-};
-
-List_intersection get_List_intersection(Grid_intersection G, int x, int y)
+Cell_territory* new_cell_territory(int territory)
 {
- 	if (x<1 || x>G.dim || y<1 || y>G.dim)
-		return NULL;
-	return G.tab[INDICE(G,x,y)];   
-};
-
-void set_List_intersection(Grid_intersection G, int x, int y, List_intersection l)
-{
-    if (x<1 || x>G.dim || y<1 || y>G.dim)
-		return;
-    G.tab[INDICE(G,x,y)] = l;  
-};
-
-Cell_intersection* new_cell(int val)
-{
-    Cell_intersection* new = malloc(sizeof(Cell_intersection));
-    new->val = val;
+    Cell_territory* new = malloc(sizeof(Cell_territory));
+    new->val = territory;
     new->next = NULL;
     return new;
-};
+};  
 
-List_intersection new_list_intersection()
+Cell_intersection* new_cell_intersection()
 {
-    List_intersection new_list = malloc(sizeof(List_intersection_f));
-    new_list->number = 0;
-    new_list->head = NULL;
+    Cell_intersection *new_list = malloc(sizeof(Cell_intersection));
+    new_list->list_of_territory = NULL;
+    new_list->next = NULL;
     return new_list;
 };
 
-void add_to_the_head(List_intersection l, int territory)
+void add_territory(Cell_intersection* l, int territory)
 {
-    Cell_intersection* elem = new_cell(territory);
-    if (l->head == NULL)
+    Cell_territory* elem = new_cell_territory(territory);
+    if (l->list_of_territory == NULL)
     {
-        l->head = elem;
+        l->list_of_territory = elem;
     }
     else
     {
-        elem->next = l->head;
-        l->head = elem;
+        elem->next = l->list_of_territory;
+        l->list_of_territory = elem;
     }
-    l->number++;
+    l->nb_territory++;
 }
 
-void add_territory(Grid_intersection G, int x, int y, int territory)
+void add_cell_intersection(Cell_intersection *Ci, Linked_list_intersection_box *L)
 {
-    List_intersection list_intersec = get_List_intersection(G, x,y);
-    if (list_intersec == NULL)
-    {       
-        List_intersection new_list_intersec = new_list_intersection();
-        add_to_the_head(new_list_intersec, territory);
-        set_List_intersection(G, x,y, new_list_intersec);
-    }
+    if ( L->first == NULL)
+        L->first = Ci;
     else
-        add_to_the_head(list_intersec, territory);
+    {
+        Ci->next = L->first;
+        L->first = Ci;
+    }
+    L->nb_box++;
     
 }
 
-/* Print nb number spaces */
-void print_space(int nb)
+void print_list_intersection(Linked_list_intersection_box *L)
 {
+    Cell_intersection *temp = L->first;
+    Cell_territory *temp_Territory;
     int i;
-    for (i = 0; i < nb; i++)
-        printf(" ");
+    for (i = 0; i < L->nb_box; i++)
+    {
+        temp_Territory = temp ->list_of_territory;
+        printf("Box %d ---- Coordinate: (%d, %d) ---- Territories: ", i, temp->C.x, temp->C.y);
+        while (temp_Territory != NULL)
+        {
+            printf("%d", temp_Territory->val);
+            temp_Territory = temp_Territory->next;
+        }
+        temp = temp->next;
+        printf("\n");
+    }
+    printf("\n");
+    
 }
 
-/* Print out a list of intersection */
-void print_list_intersection(List_intersection l, int max)
+void free_cell_intersection(Cell_intersection *C)
 {
-    Cell_intersection *cell = l->head;
-    while (cell != NULL)
-{
-        printf("%d", cell->val);
-        cell= cell->next;
+    Cell_territory * ct = C->list_of_territory;
+    Cell_territory *next;
+    while (ct != NULL)
+    {
+        next = ct->next;
+        free(ct);
+        ct = next;
+    }
+    free(C);
 }
-    print_space(max - l->number + 1);
-}
-
-void display_grid_intersection(Grid_intersection G, int max)
-{
-    List_intersection l;
-    int x,y;
-    for (y = 1; y <= G.dim; y++)
-	{
-		for ( x = 1; x <= G.dim; x++)
-		{
-            l = get_List_intersection(G,x,y);
-            if (l == NULL)
-            {
-                printf("0");
-                print_space(max );
-            }
-            else 
-                print_list_intersection(l, max);
-		}
-		printf("\n");
-	}   
-}
-
-
-void free_list_intersect_r(Cell_intersection *n)
-{
-    if (n == NULL)
-        return;
-    free_list_intersect_r(n->next);
-    free(n);
-}
-
-void free_list_intersection(List_intersection *l)
-{
-    if (*l == NULL)
-        return;
-    free_list_intersect_r((*l)->head);
-    free(*l);
-    *l = NULL;
-}
-
-
-
