@@ -12,18 +12,6 @@ typedef struct interval
     int b;
 } Interval;
 
-typedef struct territory
-{
-    int index;    /* the n-th marked box in the grid */
-    int nb_bomb;
-    Interval I;        /* intervall I = [a,b] when naming the variables */
-    Coordinate O;   /* Coordinate of the center box */
-    int size;       /* Number of boxes in the territory */  
-    Rectangle area;  /* Area of the terriory */
-
-} Territory;
-
-
 typedef struct cell_coordinate
 {
     Coordinate C;
@@ -36,6 +24,21 @@ typedef struct list_coordinate
     int nb_points;
 }
  list_coordinate;
+
+typedef struct territory
+{
+    int index;    /* the n-th marked box in the grid */
+    int nb_bomb;
+    Interval I;        /* intervall I = [a,b] when naming the variables */
+    Coordinate O;   /* Coordinate of the center box */
+    int size;       /* Number of boxes in the territory */  
+    Rectangle area;  /* Area of the terriory */
+    list_coordinate *list_box;
+
+} Territory;
+
+
+
 
 /* Read the input of the file into a list of territories and return a grid of availability */
 Grid read_input(FILE *f, int *nb_territory,int dim, Territory list_territory[]);
@@ -53,8 +56,8 @@ Grid Extract_Grid(Territory list[], int nb_territory, int dim);
 void extract_list_intersection(Linked_list_intersection_box *L, Territory list[], int nb_territory, Grid G);
 
 /* Calculate the number of clauses */
-int nb_clauses(Territory list[], int nb_territory, Grid G, Grid Avai, Linked_list_intersection_box *L);
+int nb_clauses(Territory list[], int nb_territory, Linked_list_intersection_box *L);
 
-void extract_list_availability(Territory list[], int nb_territory, Grid Avai, list_coordinate L[]);
+void extract_list_availability(Territory list[], int nb_territory, Grid Avai);
 
 #endif

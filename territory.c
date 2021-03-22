@@ -74,6 +74,7 @@ void display_all_territories(Territory list[], int nb_territory)
 {
 
     int i;
+    cell_coordinate *C;
     for (i = 0; i < nb_territory; i++)
     {
         printf("Territory %d: \n", list[i].index);
@@ -81,7 +82,16 @@ void display_all_territories(Territory list[], int nb_territory)
         printf("Number of bomb: %d\n", list[i].nb_bomb);
         printf("Interval [a,b]: [%d,%d]\n", list[i].I.a, list[i].I.b);
         printf("Center O (x,y): (%d,%d)\n", list[i].O.x, list[i].O.y);
-        printf("Rectangle of territory: (%d, %d) to (%d, %d)\n\n", list[i].area.C1.x, list[i].area.C1.y, list[i].area.C2.x, list[i].area.C2.y);
+        printf("Rectangle of territory: (%d, %d) to (%d, %d)\n", list[i].area.C1.x, list[i].area.C1.y, list[i].area.C2.x, list[i].area.C2.y);
+        printf("List of %d avaible boxes:\n", list[i].list_box->nb_points);
+        C = list[i].list_box->first;
+        do
+        {
+            printf("(%d, %d)    ", C->C.x, C->C.y);
+            C = C->next;
+        } while (C != NULL);
+
+        printf("\n----------------\n");
     }
 
 }
@@ -135,16 +145,31 @@ void extract_list_intersection(Linked_list_intersection_box *L, Territory list[]
 
 
 
-int nb_clauses(Territory list[], int nb_territory, Grid G, Grid Avai, Linked_list_intersection_box *L);
+int nb_clauses(Territory list[], int nb_territory, Linked_list_intersection_box *L)
 {
     int nb = 0;
     int i = 0;
-    /* Rule 1 2 */
     for (i = 0; i < nb_territory; i ++)
     {
         nb = nb + list[i].nb_bomb;
-        nb = nb + list[i].size * binomial(list[i].nb_bomb, 2);
+        nb = nb + list[i].list_box->nb_points * binomial(list[i].nb_bomb, 2);
     }
+
+    int a= 0;
+
+    /* Rule 3 */
+    Cell_intersection *C = L->first;
+    while (C != NULL)
+    {
+        for (i = 1; i <= C->nb_territory; i++)
+            a = a + list[i].nb_bomb;
+        
+        a = a * (C->nb_territory - 1);
+        nb = nb + a;
+        C = C->next; 
+    }
+    
+
     return nb;
 }
 
@@ -153,12 +178,13 @@ list_coordinate* init_list_coordinate()
     list_coordinate *l = malloc(sizeof(list_coordinate));
     l->first = NULL;
     l->nb_points = 0;
+    return l;
 }
 
 void add_coordinate(Coordinate C, list_coordinate *l)
 {
     cell_coordinate *new = malloc(sizeof(cell_coordinate));
-    new->next == NULL;
+    new->next = NULL;
     new->C = C;
 
     if (l->first == NULL)
@@ -172,7 +198,7 @@ void add_coordinate(Coordinate C, list_coordinate *l)
 }
 
 
-void extract_list_availability(Territory list[], int nb_territory, Grid Avai, list_coordinate L[])
+void extract_list_availability(Territory list[], int nb_territory, Grid Avai)
 {
     int t = 0;
     list_coordinate *newlist;
@@ -181,14 +207,14 @@ void extract_list_availability(Territory list[], int nb_territory, Grid Avai, li
     for (t = 0; t < nb_territory; t++)
     {
         newlist = init_list_coordinate();
-        for (y = 1; y <= Avai.dim; y++)
+        for (y = list[t].area.C2.y; y >= list[t].area.C1.y; y--)
         {
-            for (x = 1; x <= Avai.dim; x++)
+            for (x = list[t].area.C2.x; x >= list[t].area.C1.x ; x--)
             {
-                if (b = get_box(Avai,x,y) != -1)
+                if ( (b = get_box(Avai,x,y) )!= -1)
                     add_coordinate((Coordinate){x, y}, newlist);
             }
         }
-        L[t] = *newlist;
+        list[t].list_box = newlist;
     }
 }

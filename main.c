@@ -29,8 +29,6 @@ int main(int argc, char *argv[])
     /* Grid of availability */
     Grid A = read_input(f, &nb_territory, dim, list_territory);
 
-    display_all_territories(list_territory, nb_territory);
-
     printf("************************\n\n");
     
     // Print out a normal grid with territories
@@ -52,7 +50,13 @@ int main(int argc, char *argv[])
     extract_list_intersection(&List_intersection, list_territory, nb_territory, G);
     print_list_intersection(&List_intersection);
 
-    printf("Number of clauses : %d \n", nb_clauses(list_territory, nb_territory));
+
+    printf("************************\n\n");
+  
+    extract_list_availability(list_territory, nb_territory, A);
+    display_all_territories(list_territory, nb_territory);
+
+    printf("Number of clauses : %d \n", nb_clauses(list_territory, nb_territory, &List_intersection));
 
     /****************** RULE 1 ****************/
 }
