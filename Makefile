@@ -10,10 +10,11 @@ territory.o: territory.c territory.h macros.h intersection.h grid.h
 main.o: main.c territory.h grid.h macros.h
 grid.o: grid.c grid.h macros.h 
 macros.o: macros.c macros.h
+rules.o: rules.c rules.h territory.h grid.h
 test.o: test.c grid.h macros.h territory.h intersection.h
 
 
-main: main.o territory.o grid.o intersection.o macros.o
+main: main.o territory.o grid.o intersection.o macros.o rules.o
 	$(CC) $^ -o $@
 
 test: test.o territory.o grid.o intersection.o macros.o

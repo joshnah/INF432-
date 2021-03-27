@@ -5,6 +5,7 @@
 #include "grid.h"
 #include "intersection.h"
 #include "macros.h"
+#include "rules.h"
 
 
 
@@ -13,7 +14,7 @@ int main(int argc, char *argv[])
 {
     int dim;
     int nb_territory;
-    FILE *f;
+    FILE *f,*g;
 
 
     /*********************** READING INPUT ***********************/
@@ -59,4 +60,7 @@ int main(int argc, char *argv[])
     printf("Number of clauses : %d \n", nb_clauses(list_territory, nb_territory, &List_intersection));
 
     /****************** RULE 1 ****************/
+
+    g = fopen("output.txt","w");
+    translate_rule3(g, list_territory, nb_territory, &List_intersection);
 }

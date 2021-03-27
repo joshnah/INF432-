@@ -5,6 +5,7 @@
         "macros.h": "c",
         "limits.h": "c",
         "grid.h": "c",
-        "rules.h": "c"
+        "rules.h": "c",
+        "stdlib.h": "c"
     }
 }

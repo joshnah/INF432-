@@ -49,8 +49,8 @@ Grid read_input(FILE *f, int *nb_territory,int dim, Territory list_territory[])
             list_territory[i-1].index = i;
     
 
-            list_territory[i-1].I.a = count_variable;
-            list_territory[i-1].I.b = count_variable + nb_bomb *a - 1;
+            /* list_territory[i-1].I.a = count_variable;
+            list_territory[i-1].I.b = count_variable + nb_bomb *a - 1; */
         
             list_territory[i-1].nb_bomb = nb_bomb; 
             count_variable = count_variable + nb_bomb*a;
@@ -204,6 +204,7 @@ void extract_list_availability(Territory list[], int nb_territory, Grid Avai)
     list_coordinate *newlist;
     int x,y;
     Box b;
+    int count_variable = 1;
     for (t = 0; t < nb_territory; t++)
     {
         newlist = init_list_coordinate();
@@ -216,5 +217,12 @@ void extract_list_availability(Territory list[], int nb_territory, Grid Avai)
             }
         }
         list[t].list_box = newlist;
+        list[t].I.a = count_variable;
+        list[t].I.b = count_variable + list[t].nb_bomb * newlist->nb_points - 1;
+        count_variable = count_variable + list[t].nb_bomb * newlist->nb_points;
+
     }
 }
+
+
+
