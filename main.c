@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     printf("************************\n\n");
 
     Linked_list_intersection_box List_intersection = init_list_intersection();
-    extract_list_intersection(&List_intersection, list_territory, nb_territory, G);
+    extract_list_intersection(&List_intersection, list_territory, nb_territory, G,A);
     print_list_intersection(&List_intersection);
 
 

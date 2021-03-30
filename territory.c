@@ -119,7 +119,7 @@ bool check_in_territory(int t, Territory list[], int x, int y)
     
 }
 
-void extract_list_intersection(Linked_list_intersection_box *L, Territory list[], int nb_territory, Grid G)
+void extract_list_intersection(Linked_list_intersection_box *L, Territory list[], int nb_territory, Grid G, Grid A)
 {
     int x,y;
     int t;
@@ -128,6 +128,9 @@ void extract_list_intersection(Linked_list_intersection_box *L, Territory list[]
 	{
 		for ( x = 1; x <= G.dim; x++)
 		{
+            if (get_box(A, x, y) == -1)
+                continue;
+                
             i = new_cell_intersection();
             i->C = (Coordinate){x,y};
             for (t = 1; t <= nb_territory; t++)

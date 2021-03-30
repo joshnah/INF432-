@@ -67,9 +67,8 @@ void display_grid_availability(Grid G)
     int x,y;
     int dim = G.dim;
 	printf("Dimension : %d  %d\n",dim, dim);
-	printf("/ means unavailable");
+	printf("/ means unavailable\n \n");
 	Box b;
-	printf("Grid:\n");
 	for (y = 1; y <= dim; y++)
 	{
 		for ( x = 1; x <= dim; x++)
@@ -78,7 +77,7 @@ void display_grid_availability(Grid G)
 			if (b!=-1)
 				printf("%d ",0);
 			else	
-				printf("/");
+				printf("/ ");
 			
 			
 		}

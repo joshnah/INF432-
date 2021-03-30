@@ -53,7 +53,7 @@ Rectangle area_territory(Coordinate O, int dim);
 Grid Extract_Grid(Territory list[], int nb_territory, int dim);
 
 /* Create a list of intersection */
-void extract_list_intersection(Linked_list_intersection_box *L, Territory list[], int nb_territory, Grid G);
+void extract_list_intersection(Linked_list_intersection_box *L, Territory list[], int nb_territory, Grid G, Grid A);
 
 /* Calculate the number of clauses */
 int nb_clauses(Territory list[], int nb_territory, Linked_list_intersection_box *L);
