@@ -8,13 +8,14 @@
 #include "rules.h"
 
 
+char buffer[100];
 
 
 int main(int argc, char *argv[])
 {
     int dim;
     int nb_territory;
-    FILE *f,*g;
+    FILE *f,*g,*d;
 
 
     /*********************** READING INPUT ***********************/
@@ -57,10 +58,57 @@ int main(int argc, char *argv[])
     extract_list_availability(list_territory, nb_territory, A);
     display_all_territories(list_territory, nb_territory);
 
-    printf("Number of clauses : %d \n", nb_clauses(list_territory, nb_territory, &List_intersection));
 
-    /****************** RULE 1 ****************/
+    int number_clauses = nb_clauses(list_territory, nb_territory, &List_intersection);
+    printf("Number of clauses : %d \n", number_clauses);
 
-    g = fopen("output.txt","w");
+    g = fopen("output.cnf","w");
+    fprintf(g, "p cnf %d %d\n", list_territory[nb_territory-1].I.b, number_clauses);
+
+
+    translate_rule1_2(g, list_territory, nb_territory);
     translate_rule3(g, list_territory, nb_territory, &List_intersection);
+
+    fclose(f);
+    fclose(g);
+
+
+    Grid R = init_grid(dim);
+    //system("./picosat output.cnf");
+    d = popen("./picosat output.cnf","r");
+
+    printf("\n");
+    char *p;
+    char c;
+    fscanf(d, "%*c %c", &c);
+    if (c == 'U')
+    {
+        printf("Program is unsatifiable!!");
+        return 0;
+    }
+
+    printf("Program is satifiable!!\n");
+    fscanf(d,"%*s \n");
+    int a;
+    cell_coordinate *temp;
+
+    while (fgets(buffer, 100, d) != NULL)
+    {
+        p = strstr(buffer, " ") + 1;
+        while (p!= NULL)
+        { 
+            a = atoi(p);
+            if (a > 0 )
+            {
+                temp = Mark_bomb(R, a, list_territory, nb_territory);
+                set_box(R, temp->C.x, temp->C.y,1);
+            }
+            p = strstr(p+1, " " );
+        }
+    }
+
+
+    printf("************************\n\n");
+    printf("GRID RESULT:\n");
+    display_grid(R);
 }

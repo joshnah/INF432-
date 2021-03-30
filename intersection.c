@@ -23,6 +23,7 @@ Cell_intersection* new_cell_intersection()
     Cell_intersection *new_list = malloc(sizeof(Cell_intersection));
     new_list->list_of_territory = NULL;
     new_list->next = NULL;
+    new_list->nb_territory = 0;
     return new_list;
 };
 
@@ -56,6 +57,7 @@ void add_cell_intersection(Cell_intersection *Ci, Linked_list_intersection_box *
 
 void print_list_intersection(Linked_list_intersection_box *L)
 {
+    printf("List of intersection boxes:\n\n");
     Cell_intersection *temp = L->first;
     Cell_territory *temp_Territory;
     int i;

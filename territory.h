@@ -60,4 +60,6 @@ int nb_clauses(Territory list[], int nb_territory, Linked_list_intersection_box 
 
 void extract_list_availability(Territory list[], int nb_territory, Grid Avai);
 
+cell_coordinate* Mark_bomb(Grid G, int var, Territory list[], int nb_territory);
+
 #endif

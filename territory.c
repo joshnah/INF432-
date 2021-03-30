@@ -153,17 +153,22 @@ int nb_clauses(Territory list[], int nb_territory, Linked_list_intersection_box 
     {
         nb = nb + list[i].nb_bomb;
         nb = nb + list[i].list_box->nb_points * binomial(list[i].nb_bomb, 2);
+        nb = nb + list[i].nb_bomb * binomial( list[i].list_box->nb_points, 2);
     }
 
     int a= 0;
-
     /* Rule 3 */
     Cell_intersection *C = L->first;
+    Cell_territory *C_t;
     while (C != NULL)
     {
-        for (i = 1; i <= C->nb_territory; i++)
-            a = a + list[i].nb_bomb;
-        
+        C_t = C->list_of_territory;
+        a = 0;
+        while (C_t != NULL)
+        {
+            a = a + list[C_t->val-1].nb_bomb;
+            C_t = C_t->next;
+        }
         a = a * (C->nb_territory - 1);
         nb = nb + a;
         C = C->next; 
@@ -225,4 +230,23 @@ void extract_list_availability(Territory list[], int nb_territory, Grid Avai)
 }
 
 
+cell_coordinate* Mark_bomb(Grid G, int var, Territory list[], int nb_territory)
+{
+    int i,a;
+    for (i = 0; i < nb_territory; i++)
+    {
+        if (list[i].I.a <= var && var <= list[i].I.b)
+            break;
+    }
+
+    var = (var - list[i].I.a) / (list[i].nb_bomb );
+    cell_coordinate *cell = list[i].list_box->first;
+    for ( a = 0 ; a < var; a++ )
+    {
+        cell = cell->next;
+    }
+
+    return cell;
+
+}
 

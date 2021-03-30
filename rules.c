@@ -20,10 +20,10 @@ void translate_rule1(FILE *f, Territory list[], int nb_territory)
                 fprintf(f, "%d ", s + box *T.nb_bomb);
             }
             s = s+1;
-            fprintf(f, "\n");
+         //   fprintf(f, "\n");
         }
 
-        fprintf(f,"######\n");
+    //    fprintf(f,"######\n");
         for (bomb = 0; bomb < T.nb_bomb; bomb++)
         {
             for ( i = T.I.a+bomb; i < T.I.b; i = i + T.nb_bomb)
@@ -32,7 +32,7 @@ void translate_rule1(FILE *f, Territory list[], int nb_territory)
                     fprintf(f, "-%d -%d \n", i, k);  
             }
         }
-        fprintf(f,"######");
+   //     fprintf(f,"######");
     }
 }
 
@@ -65,8 +65,8 @@ void translate_rule1_2(FILE *f, Territory list[], int nb_territory)
         T = list[t];
         s = T.I.a;
 
-        fprintf(f,"Territory %d: \n", t);
-        fprintf(f,"Rule1 :\n");
+    //    fprintf(f,"Territory %d: \n", t);
+      //  fprintf(f,"Rule1 :\n");
         for (bomb = 0;  bomb < T.nb_bomb; bomb++)
         {
             for ( box = 0;  box < T.list_box->nb_points; box++)
@@ -74,26 +74,26 @@ void translate_rule1_2(FILE *f, Territory list[], int nb_territory)
                 fprintf(f, "%d ", s + box *T.nb_bomb);
             }
             s = s+1;
-            fprintf(f, "\n");
+            fprintf(f, "0\n");
         }
 
-        fprintf(f,"##########\n");
+   //     fprintf(f,"##########\n");
         for (bomb = 0; bomb < T.nb_bomb; bomb++)
         {
             for ( i = T.I.a+bomb; i < T.I.b; i = i + T.nb_bomb)
             {
                 for ( k = i + T.nb_bomb; k <= T.I.b ; k= k + T.nb_bomb)
-                    fprintf(f, "-%d -%d \n", i, k);  
+                    fprintf(f, "-%d -%d 0\n", i, k);  
             }
         }
-        fprintf(f,"Rule 2:\n");
+  //      fprintf(f,"Rule 2:\n");
         
         for (i = T.I.a; i < T.I.b ; i = i + T.nb_bomb)
         {
             for ( bomb = i; bomb <= i + T.nb_bomb -2; bomb++)
             {
                 for (k = bomb + 1; k <= i + T.nb_bomb -1; k++)
-                    fprintf(f, "-%d -%d \n", bomb, k);  
+                    fprintf(f, "-%d -%d 0\n", bomb, k);  
             }
         }
     }
@@ -137,9 +137,10 @@ void translate_rule3(FILE *f, Territory list[], int nb_territory, Linked_list_in
     Cell_territory * current;
     Cell_territory *temp;
     int i,k,g,t, starting;
-
+    int count = 0;
     for (i = 0; i < l_intersec->nb_box; i++)
     {
+     //   fprintf(f,"BOX %d\n",i);
         current = box->list_of_territory;
         for (k = 0; k < box->nb_territory; k++)
         {
@@ -154,7 +155,8 @@ void translate_rule3(FILE *f, Territory list[], int nb_territory, Linked_list_in
                     {
                         fprintf(f, "%s ", tab_char);
                         fprintf(f, "-%d ", t);
-                        fprintf(f, "\n");
+                        fprintf(f, "0\n");
+                        count++;
 
                     }
                     fprintf(f, "\n");
@@ -169,5 +171,5 @@ void translate_rule3(FILE *f, Territory list[], int nb_territory, Linked_list_in
         box = box->next;
     }
 
-
+//    fprintf(f,"nb : %d", count);
 }
