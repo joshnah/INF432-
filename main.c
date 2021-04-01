@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
     fscanf(d, "%*c %c", &c);
     if (c == 'U')
     {
-        printf("Program is unsatifiable!!");
+        printf("Program is unsatifiable!!\n");
         return 0;
     }
 
