@@ -85,11 +85,11 @@ void display_all_territories(Territory list[], int nb_territory)
         printf("Rectangle of territory: (%d, %d) to (%d, %d)\n", list[i].area.C1.x, list[i].area.C1.y, list[i].area.C2.x, list[i].area.C2.y);
         printf("List of %d avaible boxes:\n", list[i].list_box->nb_points);
         C = list[i].list_box->first;
-        do
+        while (C != NULL)
         {
             printf("(%d, %d)    ", C->C.x, C->C.y);
             C = C->next;
-        } while (C != NULL);
+        } 
 
         printf("\n----------------\n");
     }
