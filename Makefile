@@ -1,5 +1,5 @@
 CC = clang -g -Wall
-all: main test
+all: main test sat3
 
 
 %.o: %.c %.h
@@ -12,12 +12,15 @@ grid.o: grid.c grid.h macros.h
 macros.o: macros.c macros.h
 rules.o: rules.c rules.h territory.h grid.h
 test.o: test.c grid.h macros.h territory.h intersection.h
-
+sat3.o: sat3.c
 
 main: main.o territory.o grid.o intersection.o macros.o rules.o
 	$(CC) $^ -o $@
 
 test: test.o territory.o grid.o intersection.o macros.o
+	$(CC) $^ -o $@
+
+sat3: sat3.o
 	$(CC) $^ -o $@
 
 clean:

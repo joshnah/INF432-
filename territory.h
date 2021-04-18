@@ -4,6 +4,7 @@
 #include "intersection.h"
 #include "macros.h"
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 
 typedef struct interval
@@ -58,8 +59,13 @@ void extract_list_intersection(Linked_list_intersection_box *L, Territory list[]
 /* Calculate the number of clauses */
 int nb_clauses(Territory list[], int nb_territory, Linked_list_intersection_box *L);
 
+/* Extract a list of all the boxes availables (not in the area of territory 0 bombs) */
 void extract_list_availability(Territory list[], int nb_territory, Grid Avai);
 
+/* Set bomb in a box in the grid of result */
 cell_coordinate* Mark_bomb(Grid G, int var, Territory list[], int nb_territory);
+
+/* Read the output of sat_solver and return 0 if the program insatisfiable, 1 else */
+int result_grid(FILE * d, Territory list[], int nb_territory, int dim, Grid* R);
 
 #endif

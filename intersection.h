@@ -3,10 +3,8 @@
 #include "macros.h"
 #include "grid.h"
 
-/*****************************/
-//This file is for calculating intersection grid//
 
-
+/* A structure to store information of territories*/
 typedef struct Cell_territory
 {
     int val;
@@ -21,6 +19,8 @@ typedef struct Cell_intersection
     struct Cell_intersection *next;
 } Cell_intersection;
 
+
+/* A linked list of intersection boxes */
 typedef struct Linked_list_intersection_box
 {
     int nb_box;
@@ -28,15 +28,23 @@ typedef struct Linked_list_intersection_box
 }Linked_list_intersection_box;
 
 
+
+/* Add a territory into the list */
 void add_territory(Cell_intersection* l, int territory);
 
+/* Initialize a new element in the list of intersection */
 Cell_intersection* new_cell_intersection();
+
+/* Display information about the list of intersection boxes */
 void print_list_intersection(Linked_list_intersection_box *L);
 
+/* Add an element to the list of intersection boxes */
 void add_cell_intersection(Cell_intersection *Ci, Linked_list_intersection_box *L);
 
+/* Initialize a new list of intersection boxes */
 Linked_list_intersection_box init_list_intersection();
 
+/* Free memory of a list of intersection boxes */
 void free_cell_intersection(Cell_intersection *C);
 
 

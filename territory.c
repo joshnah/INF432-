@@ -3,6 +3,9 @@
 #include <stdlib.h>
 
 
+char buffer[1000];
+
+
 
 
 
@@ -253,3 +256,37 @@ cell_coordinate* Mark_bomb(Grid G, int var, Territory list[], int nb_territory)
 
 }
 
+
+int result_grid(FILE * d, Territory list[], int nb_territory, int dim, Grid* R)
+{
+    char *p;
+    char c;
+    fscanf(d, "%*c %c", &c);
+    if (c == 'U')  // check the line unsatifiable
+    {
+        printf("Program is unsatifiable!!\n");
+        return 0;
+    }
+
+    printf("Program is satifiable!!\n");
+    fscanf(d,"%*s \n");
+    int a;
+    cell_coordinate *temp;
+
+    while (fgets(buffer, 100, d) != NULL)
+    {
+        p = strstr(buffer, " ") + 1;
+        while (p!= NULL)
+        { 
+            a = atoi(p);
+            if (a > 0 )
+            {
+                temp = Mark_bomb((*R), a, list, nb_territory);
+                set_box((*R), temp->C.x, temp->C.y,1);
+            }
+            p = strstr(p+1, " " );
+        }
+    }
+
+    return 1;
+}

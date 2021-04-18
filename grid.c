@@ -85,3 +85,4 @@ void display_grid_availability(Grid G)
 	}
 	printf("\n");
 }
+

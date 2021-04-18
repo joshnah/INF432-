@@ -18,7 +18,7 @@ typedef char bool;
 #define FALSE 0
 #define TRUE  1
 
-
+/* return the binomial (n,k) */
 unsigned int binomial(unsigned int n, unsigned int k);
 
 
