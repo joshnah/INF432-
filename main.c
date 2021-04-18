@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
     /*********************** NUMBER OF CLAUSES ***********************/
 
     int number_clauses = nb_clauses(list_territory, nb_territory, &List_intersection);
-    printf("Number of clauses : %d \n", number_clauses);
+    printf("Number of clauses : %d \n\n", number_clauses);
 
 
 
@@ -101,7 +101,6 @@ int main(int argc, char *argv[])
     // popen is a function of call another program C (here we will call the sat solver)
     // d is a FILE pointer to the output of the call
     d = popen("./picosat output.cnf","r");
-
 
     Grid R = init_grid(dim);
     int result = result_grid(d, list_territory, nb_territory, dim, &R);
