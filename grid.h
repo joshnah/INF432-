@@ -29,8 +29,8 @@ typedef struct Rectangle
     Coordinate C2;
 } Rectangle;
 
-/* Initialize a grid with all cases white */
-Grid init_grid(int dim);
+/* Initialize a grid with all cases "value" */
+Grid init_grid(int dim, int value);
 
 
 /* The function return the value in the box (x,y) */
@@ -44,6 +44,9 @@ void display_grid(Grid G);
 
 /* Display the grid of availability */
 void display_grid_availability(Grid G);
+
+/* Display the grid of territories */
+void display_grid_territories(Grid G);
 
 
 

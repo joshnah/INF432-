@@ -34,14 +34,14 @@ Grid read_input(FILE *f, int *nb_territory,int dim, Territory list_territory[])
     int a;
     int i = 1,k;
     int c,d;
-    Grid G = init_grid(dim);
+    Grid A = init_grid(dim,0);
     Rectangle r;
     for (k = 1; k <= *nb_territory; k++ )
     {
         fscanf(f, "%d", &nb_bomb);
         fscanf(f, "%d", &x);
         fscanf(f, "%d", &y);
-        
+
         if (nb_bomb != 0)
         {
             list_territory[i-1].O = (Coordinate){x, y};
@@ -65,11 +65,11 @@ Grid read_input(FILE *f, int *nb_territory,int dim, Territory list_territory[])
            r = area_territory((Coordinate){x,y}, dim);   
            for (c = r.C1.x; c <= r.C2.x; c++)
                 for(d = r.C1.y; d <= r.C2.y; d++)
-                    set_box(G, c, d, -1);
+                    set_box(A, c, d, -1);
         }
     }
     *nb_territory = i-1;
-    return G;
+    return A;
 }
 
 
@@ -102,13 +102,14 @@ void display_all_territories(Territory list[], int nb_territory)
 
 Grid Extract_Grid(Territory list[], int nb_territory, int dim)
 {
-    Grid G = init_grid(dim);
+    Grid G = init_grid(dim,-1);
 
     int i;
     for (i = 0; i < nb_territory; i++)
         set_box(G, list[i].O.x, list[i].O.y , list[i].nb_bomb);
     
     return G;
+
 
 }
 /* Check if (x,y) is in territory t or not */

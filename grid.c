@@ -3,23 +3,23 @@
 #include<stdlib.h>
 #include<string.h>
 
-Grid init_grid(int dim)
+Grid init_grid(int dim, int value)
 {
     Grid I;
 	UINT i;
 	
-	/* alloctaion dynamique d'un tableau de L*H Pixel*/
+	
 	I.tab = (Box *)malloc(sizeof(Box)*dim*dim);
 	I.dim = dim;
-	/* test si le tableau a ete correctement alloue */
+	
 	if (I.tab == (Box *)NULL)
 	{
 		ERREUR_FATALE("IMPOSSIBLE TO CREATE A GRID");
 	}
 	
-	/* remplir le tableau avec des pixels blancs */
+	/* FILL WITH ALL  */
 	for (i=0; i<dim*dim; i++)
-		I.tab[i] = 0;
+		I.tab[i] = value;
 		
 	return I;
 }
@@ -86,3 +86,26 @@ void display_grid_availability(Grid G)
 	printf("\n");
 }
 
+
+
+void display_grid_territories(Grid G)
+{
+    int x,y;
+    int dim = G.dim;
+	printf("Dimension : %d  %d\n",dim, dim);
+	Box b;
+	for (y = 1; y <= dim; y++)
+	{
+		for ( x = 1; x <= dim; x++)
+		{
+			b = get_box(G, x, y);
+			if (b != -1)
+				printf("%d ",b);
+			else 
+				printf("* ");
+			
+		}
+		printf("\n");
+	}
+	printf("\n");
+}
