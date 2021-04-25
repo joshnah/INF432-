@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
     int dim;
     int nb_territory;
     FILE *f,*g,*d;
+
     int display = 0, sat3 = 0; // flags for displaying information and conversion to sat3
 
 
@@ -24,22 +25,29 @@ int main(int argc, char *argv[])
     if (argc != 3 && argc != 2)
         ERREUR_FATALE("Usage: ./main <input_file> <arguments>\n");
 
+    /* Check the existence of the arguments */
     if (argc == 3)
     {
+
         int i = 0;
+
         while (argv[2][i] != '\0')
         {
             switch (argv[2][i])
             {
+
             case 'd':
                 display = 1;
                 break;
+
             case 's':
                 sat3 = 1;
                 break;
+
             default:
                 ERREUR_FATALE("Erreur arguments! 'd' : display, 's' : convert sat3\n")
                 break;
+
             }
             i++;
         }
@@ -52,25 +60,26 @@ int main(int argc, char *argv[])
         ERREUR_FATALE("Error input file!");
 
     fscanf(f, "%d", &dim);
+
     fscanf(f, "%d", &nb_territory);
 
 
     Territory list_territory[nb_territory];
-    Grid A = read_input(f, &nb_territory, dim, list_territory);
 
+    /* Grid for displaying territories */
+    Grid G = init_grid(dim, -1);
+
+    /* Grid A is grid of availability */
+    Grid A = read_input(f, &nb_territory, dim, list_territory, &G);
 
 
     printf("************************\n\n");
-    
-    /*********************** GRID OF TERRITORY ***********************/
-
-
-    Grid G = Extract_Grid(list_territory, nb_territory, dim);
 
 
     /***********************  INTERSECTION BOXES ***********************/
 
     Linked_list_intersection_box List_intersection = init_list_intersection();
+
     extract_list_intersection(&List_intersection, list_territory, nb_territory, G,A);
 
 
@@ -82,7 +91,6 @@ int main(int argc, char *argv[])
     
 
 
-
     /*********************** NUMBER OF CLAUSES ***********************/
 
     int number_clauses = nb_clauses(list_territory, nb_territory, &List_intersection);
@@ -91,9 +99,9 @@ int main(int argc, char *argv[])
 
     /*********************** WRITING OUTPUT FILE ***********************/
 
-
+    int nb_variable = list_territory[nb_territory-1].I.b;
     g = fopen("output.cnf","w");
-    fprintf(g, "p cnf %d %d\n", list_territory[nb_territory-1].I.b, number_clauses);
+    fprintf(g, "p cnf %d %d\n", nb_variable, number_clauses);
 
     translate_rule1_2(g, list_territory, nb_territory);
     translate_rule3(g, list_territory, nb_territory, &List_intersection);
@@ -111,7 +119,6 @@ int main(int argc, char *argv[])
 
     
         printf("Grid of territories\n");
-        printf("We dont show the territory 0 in this grid \n\n");
 
         display_grid_territories(G);
 
@@ -178,5 +185,19 @@ int main(int argc, char *argv[])
     }
     
 
+    /*********************** OUR SAT SOLVER ***********************/
+/*     d = popen("./walksat output3sat.cnf","r");
 
+
+
+    Grid R3 = init_grid(dim,0);
+    result = result_sat3(d, list_territory, nb_territory, dim, &R3,nb_variable );
+
+
+    if (result == 1)
+    {
+        printf("************************\n\n");
+        printf("GRID RESULT BY OUR SAT SOLVEUR:\n");
+        display_grid(R3);
+    } */
 }

@@ -41,8 +41,8 @@ typedef struct territory
 
 
 
-/* Read the input of the file into a list of territories and return a grid of availability */
-Grid read_input(FILE *f, int *nb_territory,int dim, Territory list_territory[]);
+/* Read the input of the file into a list of territories and a grid of territories G and return a grid of availability */
+Grid read_input(FILE *f, int *nb_territory,int dim, Territory list_territory[], Grid *G);
 
 /* Display the information of all territories */
 void display_all_territories(Territory list[], int nb_territory);
@@ -67,5 +67,9 @@ cell_coordinate* Mark_bomb(Grid G, int var, Territory list[], int nb_territory);
 
 /* Read the output of sat_solver and return 0 if the program insatisfiable, 1 else */
 int result_grid(FILE * d, Territory list[], int nb_territory, int dim, Grid* R);
+
+int result_sat3(FILE * d, Territory list[], int nb_territory, int dim, Grid* R, int nb_variable);
+
+
 
 #endif

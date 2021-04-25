@@ -113,7 +113,7 @@ int main(int argc, char **argv)
 
     fscanf(f,"p cnf %d %d\n", &nb_variable, &nb_clause);
 
-    int new_var = nb_variable + 1;
+    int new_var = nb_variable + 1 ;
     int i,a,k, temp1, temp2;;
     buffer B = init_buffer(nb_variable);
 
@@ -157,16 +157,17 @@ int main(int argc, char **argv)
 
 
         default:
-            temp1 = new_var++;
+            temp1 = new_var;
             fprintf(g,"%d %d %d 0\n", B.tab[0], B.tab[1], temp1);
-            temp2 = new_var++;
+            temp2 = temp1 + 1;
             for ( k = 2; k < B.index - 2; k++)
             {
                 fprintf(g,"%d -%d %d 0\n", B.tab[k], temp1, temp2);
-                temp1 = temp2;
-                temp2 = new_var++;
+                temp1++;
+                temp2++;
             }
-            fprintf(g,"%d %d -%d 0\n", B.tab[B.index -2 ], B.tab[B.index -1], temp1 );
+            fprintf(g,"%d %d -%d 0\n", B.tab[B.index -2 ], B.tab[B.index -1], temp1);
+            new_var = new_var + B.index -3;
             nb_new_clause += (B.index -2);
 
             break;

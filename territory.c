@@ -12,6 +12,7 @@ char buffer[1000];
 Rectangle area_territory(Coordinate O, int dim)
 {
     Rectangle R;
+
     R.C1.x = max(1, O.x -1);
     R.C1.y = max(1, O.y -1);
     R.C2.x = min(dim, O.x+1);
@@ -25,7 +26,7 @@ int area_rectangle(Rectangle R)
     return (R.C2.x - R.C1.x +1) * (R.C2.y - R.C1.y +1);
 }
 
-Grid read_input(FILE *f, int *nb_territory,int dim, Territory list_territory[])
+Grid read_input(FILE *f, int *nb_territory,int dim, Territory list_territory[], Grid *G)
 {
     int nb_bomb;
     int x;
@@ -41,6 +42,9 @@ Grid read_input(FILE *f, int *nb_territory,int dim, Territory list_territory[])
         fscanf(f, "%d", &nb_bomb);
         fscanf(f, "%d", &x);
         fscanf(f, "%d", &y);
+        if (get_box(*G, x,y) != -1)
+            ERREUR_FATALE("ERROR INPUT! TWO BOMBS AT SAME PLACE\n");
+        set_box(*G, x, y, nb_bomb);
 
         if (nb_bomb != 0)
         {
@@ -51,12 +55,12 @@ Grid read_input(FILE *f, int *nb_territory,int dim, Territory list_territory[])
             list_territory[i-1].size = a;
             list_territory[i-1].index = i;
     
-
-            /* list_territory[i-1].I.a = count_variable;
-            list_territory[i-1].I.b = count_variable + nb_bomb *a - 1; */
         
             list_territory[i-1].nb_bomb = nb_bomb; 
             count_variable = count_variable + nb_bomb*a;
+
+
+            
             i++;
         }
 
@@ -274,12 +278,52 @@ int result_grid(FILE * d, Territory list[], int nb_territory, int dim, Grid* R)
     int a;
     cell_coordinate *temp;
 
-    while (fgets(buffer, 100, d) != NULL)
+    while (fgets(buffer, 1000, d) != NULL)
     {
         p = strstr(buffer, " ") + 1;
         while (p!= NULL)
         { 
             a = atoi(p);
+            if (a > 0 )
+            {
+                temp = Mark_bomb((*R), a, list, nb_territory);
+                set_box((*R), temp->C.x, temp->C.y,1);
+            }
+            p = strstr(p+1, " " );
+        }
+    }
+
+    return 1;
+}
+
+
+
+int result_sat3(FILE * d, Territory list[], int nb_territory, int dim, Grid* R, int nb_variable)
+{
+    char *p;
+    char c;
+    fscanf(d, "%*c %c", &c);
+    if (c == 'U')  // check the line unsatifiable
+    {
+        printf("Program is unsatifiable!!\n");
+        return 0;
+    }
+
+    printf("Program is satifiable!!\n");
+    fscanf(d,"%*s \n");
+    int a = 1;
+    cell_coordinate *temp;
+
+    while (fgets(buffer, 1000, d) != NULL && a <= nb_variable)
+    {
+        printf("%s\n",buffer);
+
+        p = strstr(buffer, " ") + 1;
+        while (p!= NULL)
+        { 
+            a = atoi(p);
+            if (a > nb_variable)
+                break;
             if (a > 0 )
             {
                 temp = Mark_bomb((*R), a, list, nb_territory);
