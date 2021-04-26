@@ -187,7 +187,6 @@ int main(int argc, char **argv)
     int assignment[nb_variable];
     int tab_inverse[nb_variable];
 
-    printf("%d", tab_inverse);
     for (i = 0; i < nb_variable; i++)
     {
         tab_inverse[i] = 0;
@@ -209,7 +208,7 @@ int main(int argc, char **argv)
 
         int var;
         double x = drand48();
-        if (x < 0.7)
+        if (x < 0.5)
         {
             uni_ran = uniform_distribution(3);
             var = abs(C.tab[uni_ran]) - 1;
