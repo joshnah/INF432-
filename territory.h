@@ -7,12 +7,14 @@
 #include <string.h>
 #include <stdlib.h>
 
+/* An interval [a,b] */
 typedef struct interval
 {
     int a;
     int b;
 } Interval;
 
+/* Structure of a list of coordinates */
 typedef struct cell_coordinate
 {
     Coordinate C;
@@ -26,15 +28,18 @@ typedef struct list_coordinate
 }
  list_coordinate;
 
+
+
+/* Structure to store information of territories */
 typedef struct territory
 {
-    int index;    /* the n-th marked box in the grid */
+    int index;                  /* the n-th marked box in the grid */
     int nb_bomb;
-    Interval I;        /* intervall I = [a,b] when naming the variables */
-    Coordinate O;   /* Coordinate of the center box */
-    int size;       /* Number of boxes in the territory */  
-    Rectangle area;  /* Area of the terriory */
-    list_coordinate *list_box;
+    Interval I;                 /* intervall I = [a,b] when naming the variables */
+    Coordinate O;               /* Coordinate of the center box */
+    int size;                   /* Number of boxes in the territory */  
+    Rectangle area;             /* Area of the terriory */
+    list_coordinate *list_box;          /* list of avaliable boxes */   
 
 } Territory;
 
@@ -65,9 +70,10 @@ void extract_list_availability(Territory list[], int nb_territory, Grid Avai);
 /* Set bomb in a box in the grid of result */
 cell_coordinate* Mark_bomb(Grid G, int var, Territory list[], int nb_territory);
 
-/* Read the output of sat_solver and return 0 if the program insatisfiable, 1 else */
+/* Read the output of sat_solver and return 0 if the program is unsatisfiable, 1 else */
 int result_grid(FILE * d, Territory list[], int nb_territory, int dim, Grid* R);
 
+/* Read the output of our sat_sover. Return 0 if the program is unsatifiable, 1 else */
 int result_sat3(FILE * d, Territory list[], int nb_territory, int dim, Grid* R, int nb_variable);
 
 

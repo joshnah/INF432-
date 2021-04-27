@@ -35,9 +35,14 @@ tab_clause init_tab_clause(int size)
     return T;
 }
 
+
+typedef struct occurence
+{
+    int positive;
+    int negative;
+} occurence;
+
 /* All variables in this list have value 1, the rest have 0 */
-
-
 void random_assignment(int assign[], int nb_variable)
 {
     int i;
@@ -115,7 +120,7 @@ clause random_false_clause(int assign[], tab_clause T)
     return C;
 }
 
-int pickvar(int tab_inverse[], int nb_variable)
+/* int pickvar(int tab_inverse[], int nb_variable)
 {
     int i,min = tab_inverse[0];
     int save;
@@ -130,9 +135,29 @@ int pickvar(int tab_inverse[], int nb_variable)
         }
 
     }
-    return save;
-}
+    return save; 
+} */
 
+int pickvar(int tab_inverse[], int nb_variable, int assignment[], tab_clause T)
+{
+    int max = 0;
+    int c,var,save,i;
+    int pos,neg;
+    clause C;
+    for (var = 0; var < nb_variable; var ++ )
+    {
+        pos = neg = 0;
+        for (c = 0; c < T.size; c++)
+        {
+            C = T.tab[c];
+            for ( i = 0; i < 3; i++)
+            {
+                if (T[i] == 0)
+            }
+        }
+    }
+
+}
 
 void inverse_variable(int assign[],int tab_inverse[], int index)
 {
@@ -182,7 +207,6 @@ int main(int argc, char **argv)
 
 
 
-        int uni_ran;
 
     int assignment[nb_variable];
     int tab_inverse[nb_variable];
@@ -193,10 +217,11 @@ int main(int argc, char **argv)
     }
 
     random_assignment(assignment, nb_variable);
-    clause C;
+    clause C = init_buffer(3);
     int step = 0;
     int maxstep = 1000000;
-
+    int var,uni_ran;
+    double x;
 
     while ( step++ < maxstep && (check_model(assignment, T) == 0))
     {
@@ -206,8 +231,7 @@ int main(int argc, char **argv)
 
 
 
-        int var;
-        double x = drand48();
+        x = drand48();
         if (x < 0.5)
         {
             uni_ran = uniform_distribution(3);
@@ -216,7 +240,7 @@ int main(int argc, char **argv)
         else
         {
             var = pickvar(tab_inverse, nb_variable);
-        }
+        } 
 
         inverse_variable(assignment, tab_inverse, var);
 

@@ -23,9 +23,11 @@ typedef struct Cell_intersection
 /* A linked list of intersection boxes */
 typedef struct Linked_list_intersection_box
 {
+    
     int nb_box;
     Cell_intersection *first;
-}Linked_list_intersection_box;
+
+}   Linked_list_intersection_box;
 
 
 

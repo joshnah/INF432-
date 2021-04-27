@@ -43,7 +43,7 @@ Grid read_input(FILE *f, int *nb_territory,int dim, Territory list_territory[], 
         fscanf(f, "%d", &x);
         fscanf(f, "%d", &y);
         if (get_box(*G, x,y) != -1)
-            ERREUR_FATALE("ERROR INPUT! TWO BOMBS AT SAME PLACE\n");
+            ERREUR_FATALE("ERROR INPUT! TWO TERRITORIES AT SAME PLACE");
         set_box(*G, x, y, nb_bomb);
 
         if (nb_bomb != 0)
@@ -53,6 +53,8 @@ Grid read_input(FILE *f, int *nb_territory,int dim, Territory list_territory[], 
             list_territory[i-1].area = area_territory(list_territory[i-1].O, dim); 
             a = area_rectangle(list_territory[i-1].area);
             list_territory[i-1].size = a;
+            if (nb_bomb > a)
+                ERREUR_FATALE("UNSATIFIABLE (THERE IS A TERRITORY WITH TOO MANY BOMBS)");
             list_territory[i-1].index = i;
     
         

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* This program generates an input file with maximum territories */
 int main(int argc, char **argv)
 {
     int dim;
@@ -10,7 +11,9 @@ int main(int argc, char **argv)
     fprintf(f, "%d\n%d\n", dim, dim*dim);
 
     int x,y,a;
+    /* Flags to say if x or y is at the edge */
     int xedge = 0,yedge = 0;
+
     for (y = 1; y <= dim ; y++)
     {   
         if (y == 1 || y == dim)

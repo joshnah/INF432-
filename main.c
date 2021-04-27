@@ -73,9 +73,6 @@ int main(int argc, char *argv[])
     Grid A = read_input(f, &nb_territory, dim, list_territory, &G);
 
 
-    printf("************************\n\n");
-
-
     /***********************  INTERSECTION BOXES ***********************/
 
     Linked_list_intersection_box List_intersection = init_list_intersection();
@@ -110,17 +107,18 @@ int main(int argc, char *argv[])
     fclose(g);
 
 
+    /*********************** GRID OF TERRITORY ***********************/
+
+
+    printf("Grid of territories\n");
+
+    display_grid_territories(G); 
+
 
     /***********************  DISPLAY INFORMATION ***********************/
 
     if (display == 1)
     {
-        /*********************** GRID OF TERRITORY ***********************/
-
-    
-        printf("Grid of territories\n");
-
-        display_grid_territories(G);
 
 
         /***********************  GRID OF AVAILABILITY ***********************/
@@ -162,12 +160,15 @@ int main(int argc, char *argv[])
     // d is a FILE pointer to the output of the call
     d = popen("./picosat output.cnf","r");
 
+    printf("************************\n\n");
+    printf("By Picosat:\n");
+
     Grid R = init_grid(dim,0);
     int result = result_grid(d, list_territory, nb_territory, dim, &R);
 
     if (result == 1)
     {
-        printf("************************\n\n");
+        
         printf("GRID RESULT:\n");
         display_grid(R);
     }
@@ -185,8 +186,11 @@ int main(int argc, char *argv[])
     }
     
 
+    printf("************************\n\n");
+    printf("BY our SAT-SOLVER:\n");
+
     /*********************** OUR SAT SOLVER ***********************/
-/*     d = popen("./walksat output3sat.cnf","r");
+     d = popen("./walksat output3sat.cnf","r");
 
 
 
@@ -197,7 +201,7 @@ int main(int argc, char *argv[])
     if (result == 1)
     {
         printf("************************\n\n");
-        printf("GRID RESULT BY OUR SAT SOLVEUR:\n");
+        printf("GRID RESULT:\n");
         display_grid(R3);
-    } */
+    } 
 }
