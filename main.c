@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
     d = popen("./picosat output.cnf","r");
 
     printf("************************\n\n");
-    printf("By Picosat:\n");
+    printf("By Picosat:\n\n");
 
     Grid R = init_grid(dim,0);
     int result = result_grid(d, list_territory, nb_territory, dim, &R);
@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
     if (result == 1)
     {
         
-        printf("GRID RESULT:\n");
+        printf("\nGRID RESULT:\n");
         display_grid(R);
     }
 
@@ -183,11 +183,11 @@ int main(int argc, char *argv[])
     if (sat3 == 1 )
     {
         system("./sat3 output.cnf");
-    }
+    
     
 
     printf("************************\n\n");
-    printf("BY our SAT-SOLVER:\n");
+    printf("BY our SAT-SOLVER:\n\n");
 
     /*********************** OUR SAT SOLVER ***********************/
      d = popen("./walksat output3sat.cnf","r");
@@ -201,7 +201,8 @@ int main(int argc, char *argv[])
     if (result == 1)
     {
         printf("************************\n\n");
-        printf("GRID RESULT:\n");
+        printf("\nGRID RESULT:\n");
         display_grid(R3);
     } 
+}
 }

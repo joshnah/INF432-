@@ -318,7 +318,6 @@ int result_sat3(FILE * d, Territory list[], int nb_territory, int dim, Grid* R, 
 
     while (fgets(buffer, 1000, d) != NULL && a <= nb_variable)
     {
-        printf("%s\n",buffer);
 
         p = strstr(buffer, " ") + 1;
         while (p!= NULL)
