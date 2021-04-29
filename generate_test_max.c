@@ -1,3 +1,5 @@
+/* GENERATE A MAX_INPUT GRID IN "max_input.txt" */
+
 #include <stdio.h>
 #include <stdlib.h>
 

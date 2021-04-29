@@ -123,20 +123,17 @@ int main(int argc, char *argv[])
     display_grid_territories(G); 
 
 
+    /***********************  GRID OF AVAILABILITY ***********************/
+
+    printf("************************\n\n");
+    printf("Grid of availability\n");
+    display_grid_availability(A);
+
+
     /***********************  DISPLAY INFORMATION ***********************/
 
     if (display == 1)
     {
-
-
-        /***********************  GRID OF AVAILABILITY ***********************/
-
-        printf("************************\n\n");
-        printf("Grid of availability\n");
-        display_grid_availability(A);
-
-
-        printf("************************\n\n");
 
 
 

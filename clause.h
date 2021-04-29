@@ -1,4 +1,4 @@
-
+/* STORING CLAUSES FOR SAT SOLVER */
 #ifndef _CLAUSE_H_
 #define _CLAUSE_H_
 
@@ -73,10 +73,10 @@ int check_model(int assign[], tab_clause T);
 clause random_false_clause(int assign[], tab_clause T);
 
 /* This function choose a variable with the least times "flip" */
-int pickvar_flip(int tab_inverse[], int nb_variable);
+int pickvar_flip(int tab_inverse[], int nb_variable, clause C);
 
 /* This function choose a variable based on the difference between the positive and negative occurences of variables */
-int pickvar_occ(occurence tab_occurence[], int nb_variable, int assignment[], tab_clause T);
+int pickvar_occ(occurence tab_occurence[], int nb_variable, int assignment[], tab_clause T, clause C);
 
 /* Flip a variable in an assignment */
 void inverse_variable(int assign[],int tab_inverse[], int index, occurence tab_occurence[]);

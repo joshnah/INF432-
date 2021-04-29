@@ -1,3 +1,6 @@
+/* PROGRAM TO CONVERT A DIMACS FILE TO A 3-SAT DIMACS FILE */
+
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

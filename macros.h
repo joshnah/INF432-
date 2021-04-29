@@ -1,3 +1,4 @@
+/* MACROS FOR BINOMIAL AND GCD */
 #ifndef _MACROS_H
 #define _MACROS_H
 #include <stdio.h>

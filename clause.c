@@ -162,98 +162,91 @@ int check_model(int assign[], tab_clause T)
 
 clause random_false_clause(int assign[], tab_clause T)
 {
-    int i = 0;
+    int i  = 0;
 
     clause C = T.tab[i];
 
-    while (i < T.size && (check_assignment_clause(assign, C) == 1))
+    /* Loop through list of clauses to find false clause */
+    while (check_assignment_clause(assign, C) == 1)
     {
-        C = T.tab[i++];
+        C = T.tab[i];
+
+        // if we reach the end of the array, return from the first clause
+        if (i == T.size)
+            i = 0;
+
+        else 
+            i++;
+ 
     }  
     return C;
 
 }
 
-int pickvar_flip(int tab_inverse[], int nb_variable)
+int pickvar_flip(int tab_inverse[], int nb_variable, clause C)
 {
-    int i,min = tab_inverse[0];
-    int save;
+    int i,min, save, var_assign;
 
-    for (i = 0; i < nb_variable; i ++)
+    // assume that variable with minumum number of flip is the first one in the clause
+    save = 0;
+    min = tab_inverse[abs(C.tab[0]) - 1];
+    
+    // Compare with 2 other variables in the clause
+    for (i = 1; i < 3; i ++)
     {
-        if (tab_inverse[i] == 0)
-            return i;
+        var_assign = abs(C.tab[0]) - 1;
 
-        if (tab_inverse[i] <= min)
+        // if there is a variable which has never been flipped, choose it
+        if (tab_inverse[var_assign] == 0)
+            return var_assign;
+
+        if (tab_inverse[var_assign] <= min)
         {
-            min = tab_inverse[i];
-            save = i;
+            min = tab_inverse[var_assign];
+
+            save = var_assign;
         }
 
     }
+
     return save; 
 }
 
-int pickvar_occ(occurence tab_occurence[], int nb_variable, int assignment[], tab_clause T)
+int pickvar_occ(occurence tab_occurence[], int nb_variable, int assignment[], tab_clause T, clause C)
 {
-    int var, calcul, save;
-    int max;
+    int var, calcul, save, max, var_assign;
 
     /* Assume that the maximum belongs to the first variable */
-    var = uniform_distribution(nb_variable);
-    if (assignment[var] == 0)
-        calcul = tab_occurence[var].positive - tab_occurence[var].negative;
+    var = 0;
+    var_assign = abs(C.tab[0]) - 1;
+
+    if (assignment[var_assign] == 0)
+        calcul = tab_occurence[var_assign].positive - tab_occurence[var_assign].negative;
     else    
-        calcul = tab_occurence[var].negative - tab_occurence[var].positive;
+        calcul = tab_occurence[var_assign].negative - tab_occurence[var_assign].positive;
 
     max = calcul;
-    save = var;
+    save = var_assign;
 
-    /* Choose a direction for the loop increasing or decreasing */
-    int direction = uniform_distribution(2);
-
-    /* Choose a random variable to start the loop */
-    var = uniform_distribution(nb_variable);
-
-    /* Direction increasing */
-    if (direction == 1)
+    /* Compare with two other variables in the clauses */
+    for ( var = 1 ; var < 3 ; var ++ )
     {
+        var_assign = abs(C.tab[var])- 1;
 
-        for (  ; var < nb_variable ; var ++ )
-        {
-            if (assignment[var] == 0)
-                calcul = tab_occurence[var].positive - tab_occurence[var].negative;
-
-            else    
-                calcul = tab_occurence[var].negative - tab_occurence[var].positive;
-
-            if (calcul > max )
-            {
-                max = calcul;
-                save = var;
-            }
-        }
-
-    }
-    else 
-    /* Direction decreasing */
-    {
-    for (  ; var >= 0; var -- )
-    {
-        if (assignment[var] == 0)
-            calcul = tab_occurence[var].positive - tab_occurence[var].negative;
+        if (assignment[var_assign] == 0)
+            calcul = tab_occurence[var_assign].positive - tab_occurence[var_assign].negative;
 
         else    
-            calcul = tab_occurence[var].negative - tab_occurence[var].positive;
+            calcul = tab_occurence[var_assign].negative - tab_occurence[var_assign].positive;
 
         if (calcul > max )
         {
             max = calcul;
-            save = var;
+            save = var_assign;
         }
-    }
-    }
+        
 
+    }
     return save;
 }
 

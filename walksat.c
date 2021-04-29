@@ -1,3 +1,5 @@
+/* A SAT SOLVER WALKSAT WHICH RECEIVE A DIMACS FILE 3-SAT AS ARGUMENT */
+
 #include "clause.h"
 
 #define MAX_ITERATION 1000000
@@ -57,36 +59,35 @@ int main(int argc, char **argv)
 
 
 
-
     while ( step++ < MAX_ITERATION && (check_model(assignment, T) == 0))
     {
 
         /* Choose randomly a false clause */
         C = random_false_clause(assignment, T);
 
+
         /* Choose uniformaly a value between 0 and 1 */
         x = drand48();
 
-        /* 50% choosing randomly a variable */
-        if (x < 0.6)
+        /* 40% choosing randomly a variable */
+        if (x < 0.4)
         {
             uni_ran = uniform_distribution(3);
             var = abs(C.tab[uni_ran]) - 1;
         }
 
-        /* 20% choosing a variable with least flip times */
-        else if (x < 1)
-            var = pickvar_flip(tab_inverse,nb_variable);
+        /* 30% choosing a variable with least flip times */
+        else if (x < 0.7)
+            var = pickvar_flip(tab_inverse,nb_variable, C);
 
 
         /* 30% choosing a variable based on number of occurences */
         else 
         {
-            var = pickvar_occ(tab_occurence, nb_variable, assignment, T);
+            var = pickvar_occ(tab_occurence, nb_variable, assignment, T,C);
         } 
 
         inverse_variable(assignment, tab_inverse, var,tab_occurence);
-
 
     }
 

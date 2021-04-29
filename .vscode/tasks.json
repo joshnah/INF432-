@@ -7,7 +7,7 @@
             "args": [
                 "-g",
                 "${file}",
-                "clause.o",
+                "clause.h",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],
