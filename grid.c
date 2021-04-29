@@ -45,6 +45,13 @@ void set_box(Grid G, int x, int y, Box b)
     G.tab[INDICE(G,x,y)] = b;
 }
 
+void print_dash(int n)
+{
+	int i;
+	for (i = 0; i < n; i++)
+		printf("—");
+}
+
 /* Display the grid in the stdout */
 void display_grid(Grid G)
 {
@@ -54,10 +61,12 @@ void display_grid(Grid G)
 	printf("Dimension : %d  %d\n",dim, dim);
 
 	Box b;
-
+	printf(" ");
+	print_dash((dim) * 2 + 1);
+	printf("\n");
 	for (y = 1; y <= dim; y++)
 	{
-
+		printf("| ");
 		for ( x = 1; x <= dim; x++)
 		{
 
@@ -65,11 +74,12 @@ void display_grid(Grid G)
 			printf("%d ",b);
 			
 		}
-
+		printf("|");
 		printf("\n");
 
 	}
-
+	printf(" ");
+	print_dash((dim) * 2+1);
 	printf("\n");
 }
 
@@ -82,10 +92,14 @@ void display_grid_availability(Grid G)
 	printf("Dimension : %d  %d\n",dim, dim);
 	printf("/ means unavailable\n \n");
 
-	Box b;
 
+	Box b;
+	printf(" ");
+	print_dash((dim) * 2 + 1);
+	printf("\n");
 	for (y = 1; y <= dim; y++)
 	{
+		printf("| ");
 		for ( x = 1; x <= dim; x++)
 		{
 
@@ -98,8 +112,15 @@ void display_grid_availability(Grid G)
 			
 			
 		}
+		printf("|");
+
 		printf("\n");
+
 	}
+	printf(" ");
+
+	print_dash((dim) * 2+1);
+
 	printf("\n");
 }
 
@@ -112,10 +133,14 @@ void display_grid_territories(Grid G)
 
 	printf("Dimension : %d  %d\n",dim, dim);
 
-	Box b;
 
+	Box b;
+	printf(" ");
+	print_dash((dim) * 2 + 1);
+	printf("\n");
 	for (y = 1; y <= dim; y++)
 	{
+		printf("| ");
 		for ( x = 1; x <= dim; x++)
 		{
 
@@ -127,7 +152,11 @@ void display_grid_territories(Grid G)
 				printf("* ");
 			
 		}
+		printf("|");
 		printf("\n");
+
 	}
+	printf(" ");
+	print_dash((dim) * 2+1);
 	printf("\n");
 }

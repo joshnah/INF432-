@@ -2,9 +2,9 @@
 CC = clang -g -Wall
 
 # Executables
-all: main test sat3 generate_test walksat
+EXECUTABLES = main sat3 generate_test_max walksat
 
-
+all : $(EXECUTABLES);
 
 ########################################################
 #   COMPILATION OF MODULES 
@@ -36,7 +36,7 @@ test.o: test.c grid.h macros.h territory.h intersection.h
 
 sat3.o: sat3.c
 
-generate_test.o: generate_test.c
+generate_test_max.o: generate_test_max.c
 
 clause.o: clause.c clause.h
 
@@ -56,7 +56,7 @@ test: test.o territory.o grid.o intersection.o macros.o
 sat3: sat3.o
 	$(CC) $^ -o $@
 
-generate_test: generate_test.o
+generate_test_max: generate_test_max.o
 	$(CC) $^ -o $@
 
 walksat: walksat.o clause.o
@@ -69,4 +69,5 @@ walksat: walksat.o clause.o
 
 	
 clean:
-	rm -f $(all) *.o
+	rm -fR $(EXECUTABLES) *.o *.cnf picosat
+

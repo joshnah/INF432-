@@ -68,14 +68,14 @@ int main(int argc, char **argv)
         x = drand48();
 
         /* 50% choosing randomly a variable */
-        if (x < 0.5)
+        if (x < 0.6)
         {
             uni_ran = uniform_distribution(3);
             var = abs(C.tab[uni_ran]) - 1;
         }
 
         /* 20% choosing a variable with least flip times */
-        else if (x < 0.7)
+        else if (x < 1)
             var = pickvar_flip(tab_inverse,nb_variable);
 
 

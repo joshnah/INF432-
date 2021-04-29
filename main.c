@@ -35,11 +35,12 @@ int main(int argc, char *argv[])
         {
             switch (argv[2][i])
             {
-
+            /* display */
             case 'd':
                 display = 1;
                 break;
 
+            /* sat 3 */
             case 's':
                 sat3 = 1;
                 break;
@@ -56,13 +57,19 @@ int main(int argc, char *argv[])
     /*********************** READING INPUT ***********************/
 
     f = fopen(argv[1], "r");
+
     if (f == NULL)
-        ERREUR_FATALE("Error input file!");
+        ERREUR_FATALE("Error input file name!");
 
     fscanf(f, "%d", &dim);
 
+    if ( dim == 0)
+        ERREUR_FATALE("DIMENSION 0!");
+
     fscanf(f, "%d", &nb_territory);
 
+    if (nb_territory > dim * dim)
+        ERREUR_FATALE("TOO MANY TERRITORIES!");
 
     Territory list_territory[nb_territory];
 
@@ -70,6 +77,7 @@ int main(int argc, char *argv[])
     Grid G = init_grid(dim, -1);
 
     /* Grid A is grid of availability */
+    /* Storing information of all territories */
     Grid A = read_input(f, &nb_territory, dim, list_territory, &G);
 
 
@@ -168,7 +176,9 @@ int main(int argc, char *argv[])
 
     if (result == 1)
     {
-        
+        printf("\nInitially:\n");
+        display_grid_territories(G);
+
         printf("\nGRID RESULT:\n");
         display_grid(R);
     }
@@ -187,7 +197,7 @@ int main(int argc, char *argv[])
     
 
     printf("************************\n\n");
-    printf("BY our SAT-SOLVER:\n\n");
+    printf("BY our SAT-SOLVER:\n");
 
     /*********************** OUR SAT SOLVER ***********************/
      d = popen("./walksat output3sat.cnf","r");
@@ -200,7 +210,9 @@ int main(int argc, char *argv[])
 
     if (result == 1)
     {
-        printf("************************\n\n");
+        printf("\nInitially:\n");
+        display_grid_territories(G);
+
         printf("\nGRID RESULT:\n");
         display_grid(R3);
     } 
