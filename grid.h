@@ -1,3 +1,5 @@
+/* PACKAGE GRID */
+
 #ifndef _GRID_H_
 #define _GRID_H_
 #include "macros.h"

@@ -1,3 +1,5 @@
+/* PACKAGE INTERSECTION */
+
 #ifndef _INTERSECTION_H_
 #define _INTERSECTION_H_
 #include "macros.h"

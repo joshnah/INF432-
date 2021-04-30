@@ -1,3 +1,9 @@
+/* ************ */
+/* MAIN PROGRAM */
+/* ************ */
+
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -105,9 +111,12 @@ int main(int argc, char *argv[])
     /*********************** WRITING OUTPUT FILE ***********************/
 
     int nb_variable = list_territory[nb_territory-1].I.b;
+
     g = fopen("output.cnf","w");
+
     fprintf(g, "p cnf %d %d\n", nb_variable, number_clauses);
 
+    /* Translating rule 1 and 2 */
     translate_rule1_2(g, list_territory, nb_territory);
     translate_rule3(g, list_territory, nb_territory, &List_intersection);
 
@@ -127,10 +136,11 @@ int main(int argc, char *argv[])
 
     printf("************************\n\n");
     printf("Grid of availability\n");
+
     display_grid_availability(A);
 
 
-    /***********************  DISPLAY INFORMATION ***********************/
+    /***********************  DISPLAY TERRITORY INFORMATION ***********************/
 
     if (display == 1)
     {
@@ -169,6 +179,8 @@ int main(int argc, char *argv[])
     printf("By Picosat:\n\n");
 
     Grid R = init_grid(dim,0);
+
+    /* Reading output of the SAT SOLVER */
     int result = result_grid(d, list_territory, nb_territory, dim, &R);
 
     if (result == 1)
@@ -197,11 +209,13 @@ int main(int argc, char *argv[])
     printf("BY our SAT-SOLVER:\n");
 
     /*********************** OUR SAT SOLVER ***********************/
-     d = popen("./walksat output3sat.cnf","r");
+    d = popen("./walksat output3sat.cnf","r");
 
 
 
     Grid R3 = init_grid(dim,0);
+
+    /* Reading output of the sat solver */
     result = result_sat3(d, list_territory, nb_territory, dim, &R3,nb_variable );
 
 
