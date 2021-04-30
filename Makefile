@@ -70,4 +70,8 @@ walksat: walksat.o clause.o
 	
 clean:
 	rm -fR $(EXECUTABLES) *.o *.cnf picosat
+	rm -f picosat picomcs picomus picogcnf
+	rm -f *.exe *.s *.o *.a *.so *.plist
+	rm -f makefile config.h
+	rm -f gmon.out *~
 

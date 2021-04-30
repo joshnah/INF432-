@@ -127,17 +127,19 @@ int main(int argc, char *argv[])
     /*********************** GRID OF TERRITORY ***********************/
 
 
-    printf("Grid of territories\n");
+    printf("\nProblem:\n\n");
 
     display_grid_territories(G); 
 
 
     /***********************  GRID OF AVAILABILITY ***********************/
 
-    printf("************************\n\n");
-    printf("Grid of availability\n");
+    printf("************************\n");
+    printf("\nGrid of availability\n\n");
 
     display_grid_availability(A);
+
+    printf("\n");
 
 
     /***********************  DISPLAY TERRITORY INFORMATION ***********************/

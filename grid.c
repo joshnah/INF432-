@@ -90,7 +90,7 @@ void display_grid_availability(Grid G)
     int dim = G.dim;
 
 	printf("Dimension : %d  %d\n",dim, dim);
-	printf("/ means unavailable\n \n");
+	printf("/ means we cannot have a bomb there\n \n");
 
 
 	Box b;
@@ -106,7 +106,7 @@ void display_grid_availability(Grid G)
 			b = get_box(G, x, y);
 
 			if (b!=-1)
-				printf("%d ",0);
+				printf("* ");
 			else	
 				printf("/ ");
 			
