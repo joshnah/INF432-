@@ -1,4 +1,4 @@
-/* PROGRAM TO CONVERT A DIMACS FILE TO A 3-SAT DIMACS FILE */
+/* PROGRAM TO CONVERT A DIMACS FILE TO A 3-SAT DIMACS FILE "output3.cnf" in folder temp_file*/
 
 
 #include <stdio.h>
@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 
     f = fopen(argv[1], "r");
 
-    g = fopen("temp.output3sat.cnf", "w");
+    g = fopen("./temp_file/temp.output3sat.cnf", "w");
 
 
     int nb_clause, nb_variable;
@@ -135,7 +135,7 @@ int main(int argc, char **argv)
     /* Printing new numbers of variables and clauses */
     fprintf(f, "p cnf %d %d\n", new_var, nb_new_clause);
 
-    g = fopen("temp.output3sat.cnf","r");
+    g = fopen("./temp_file/temp.output3sat.cnf","r");
 
     fscanf(f,"p cnf %d %d\n", &nb_variable, &nb_clause);
 

@@ -209,9 +209,10 @@ int main(int argc, char *argv[])
     printf("BY our SAT-SOLVER:\n");
 
     /*********************** OUR SAT SOLVER ***********************/
-    d = popen("./walksat output3sat.cnf","r");
+    system("./walksat output3sat.cnf");
 
 
+    d = fopen("result_walksat.txt","r");
 
     Grid R3 = init_grid(dim,0);
 
@@ -228,4 +229,5 @@ int main(int argc, char *argv[])
         display_grid(R3);
     } 
 }
+    fclose(d);
 }

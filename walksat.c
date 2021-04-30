@@ -91,27 +91,30 @@ int main(int argc, char **argv)
 
     }
 
+    f = fopen("result_walksat.txt","w");
+
     /* The program could not find the solution */
     if (step == MAX_ITERATION + 1)
     {
-        printf("s UNSATIFIABLE");
+        fprintf(f,"s UNSATIFIABLE");
         return(-1);
     }
 
     /* The program is able to find a solution */
 
-    printf("s SATIFIABLE\n");
+    fprintf(f, "s SATIFIABLE\n");
 
     /* Print out all the variables */
 
     for (i = 0; i < nb_variable; i++)
     {
         if (assignment[i] == 1)
-            printf("%d ", i+1);
+            fprintf(f, "%d ", i+1);
         else   
-            printf("-%d ",i+1 );
+            fprintf(f, "-%d ",i+1 );
     }
 
-    printf("0\n");
+    fprintf(f,"0\n");
+    fclose(f);
 
 }
