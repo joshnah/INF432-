@@ -4,6 +4,8 @@
 
 
 
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -214,12 +216,12 @@ int main(int argc, char *argv[])
     system("./walksat output3sat.cnf");
 
 
-    d = fopen("result_walksat.txt","r");
+    f = fopen("result_walksat.txt","r");
 
     Grid R3 = init_grid(dim,0);
 
     /* Reading output of the sat solver */
-    result = result_sat3(d, list_territory, nb_territory, dim, &R3,nb_variable );
+    result = result_sat3(f, list_territory, nb_territory, dim, &R3,nb_variable );
 
 
     if (result == 1)
@@ -230,6 +232,6 @@ int main(int argc, char *argv[])
         printf("\nGRID RESULT:\n");
         display_grid(R3);
     } 
+    fclose(f);
 }
-    fclose(d);
 }

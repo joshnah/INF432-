@@ -69,9 +69,9 @@ walksat: walksat.o clause.o
 
 	
 clean:
-	rm -fR $(EXECUTABLES) *.o *.cnf picosat
-	rm -f picosat picomcs picomus picogcnf
-	rm -f *.exe *.s *.o *.a *.so *.plist
-	rm -f makefile config.h
-	rm -f gmon.out *~
+	rm -fR $(EXECUTABLES) *.o *.cnf picosat result_walksat.txt max_input.txt
+	rm -f ./picosat-965/picosat ./picosat-965/picomcs ./picosat-965/picomus ./picosat-965/picogcnf
+	rm -f ./picosat-965/*.exe ./picosat-965/*.s ./picosat-965/*.o ./picosat-965/*.a ./picosat-965/*.so ./picosat-965/*.plist
+	rm -f ./picosat-965/makefile ./picosat-965/config.h
+	rm -f ./picosat-965/gmon.out ./picosat-965/*~
 
