@@ -8,6 +8,8 @@ int main(int argc, char **argv)
 {
     FILE *f;
     f = fopen(argv[1], "r");
+    srand(time(0));
+    srand48(time(0));
 
     int nb_clause, nb_variable;
 

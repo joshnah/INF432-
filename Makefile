@@ -2,7 +2,7 @@
 CC = clang -g -Wall
 
 # Executables
-EXECUTABLES = main sat3 generate_test_max walksat
+EXECUTABLES = main sat3 generate_test_max walksat generate_random_grid
 
 all : $(EXECUTABLES);
 
@@ -42,7 +42,7 @@ clause.o: clause.c clause.h
 
 walksat.o: walksat.c clause.h 
 
-
+generate_random_grid.o: generate_random_grid.c
 
 ########################################################
 # 	LINKING OBJECT FILES
@@ -62,6 +62,8 @@ generate_test_max: generate_test_max.o
 walksat: walksat.o clause.o
 	$(CC) $^ -o $@
 
+generate_random_grid: generate_random_grid.o
+	$(CC) $^ -o $@
 
 ########################################################
 #	Clean folder

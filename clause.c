@@ -81,7 +81,6 @@ void random_assignment(int assign[], int nb_variable)
 {
     int i;
 
-    srand48(time(0));
 
     for (i = 0; i < nb_variable; i ++)
     {

@@ -16,7 +16,6 @@
 #include "rules.h"
 
 
-char buffer[100];
 
 
 int main(int argc, char *argv[])
