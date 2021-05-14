@@ -19,24 +19,23 @@ int uniform_distribution(int n) {
 
 int random_number(int min_num, int max_num)
 {
-    int result = 0, low_num = 0, hi_num = 0;
 
-    if (min_num < max_num)
-    {
-        low_num = min_num;
-        hi_num = max_num + 1; // include max_num in output
-    } else {
-        low_num = max_num + 1; // include max_num in output
-        hi_num = min_num;
-    }
-
-    result = (rand() % (hi_num - low_num)) + low_num;
+    int result = (rand() % (max_num - min_num) + min_num);
     return result;
 }
 
 /* This program generates an input file with maximum territories */
 int main(int argc, char **argv)
 {
+    if (argc < 3)
+    {
+        printf("Usage: ./generate_random_grid <dimension> <nb_territory> <option>");
+        exit(1);
+    }
+
+    int min = 1;
+    if (argc ==4 && argv[3][0] == 'z')
+        min = 0;
 
     srand(time(0));
     int dim;
@@ -76,7 +75,6 @@ int main(int argc, char **argv)
     	y = random_number(1,dim);
 	    x = random_number(1,dim);
 
-    printf("%d, %d\n", x,y);
 	if (tab_check[y-1][x-1] == 0)
 		continue;
 
@@ -94,11 +92,11 @@ int main(int argc, char **argv)
         xedge = 0;
 
     if (xedge && yedge)
-        a = random_number(0,4);
+        a = random_number(min,4);
     else if (xedge || yedge)
-        a = random_number(0,6);
+        a = random_number(min,6);
     else 
-        a = random_number(0,9);
+        a = random_number(min,9);
 
 
     fprintf(f, "%d %d %d\n", a ,x ,y);
@@ -106,4 +104,5 @@ int main(int argc, char **argv)
     }
 
     fclose(f);
+    system("./main random_input.txt");
 }

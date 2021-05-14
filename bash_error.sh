@@ -1,4 +1,7 @@
 #!/bin/bash
+
+#BASH PROGRAM TO EXECUTE ALL THE ERROR TEST CASES
+
 for f in ./test_cases/error_input/*
 do
 	printf "Case error: "
